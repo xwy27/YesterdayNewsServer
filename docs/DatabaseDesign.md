@@ -2,7 +2,7 @@
 
 ## News
 
-|ID|UserID|Type|Title|PublishTime|Content|DisplayType|Category|
+|ID|Username|Type|Title|PublishTime|Content|DisplayType|Category|
 |:-:|:---:|:--:|:---:|:---------:|:-----:|:---------:|:------:|
 |Integer<br>Unique<br>Primary Key|Integer<br>Foreign Key|Bool|String|String|String|String|String|
 
@@ -14,30 +14,30 @@
 
 ## NewsStar
 
-|ID|NewsID|UserID|
+|ID|NewsID|Username|
 |:-:|:---:|:----:|
 |Integer<br>Unique<br>Primary Key|Integer<br>Foreign Key|Integer<br>Foreign Key|
 
 ## Comments
 
-|ID|NewsID|UserID|Content|PublishTime|Star|
+|ID|NewsID|Username|Content|PublishTime|Star|
 |:-:|:---:|:----:|:-----:|:---------:|:--:|
 |Integer<br>Unique<br>Primary Key|Integer<br>Foreign Key|Integer<br>Foreign Key|String|String|Integer|
 
 ## CommentReply
 
-|ID|CommentID|UserID|Content|PublishTime|Star|
+|ID|CommentID|Username|Content|PublishTime|Star|
 |:-:|:------:|:----:|:-----:|:---------:|:--:|
 |Integer<br>Unique<br>Primary Key|Integer<br>Foreign Key|Integer<br>Foreign Key|String|String|Integer|
 
 ## CommentStar
 
-|ID|CommentID|UserID|
+|ID|CommentID|Username|
 |:-:|:------:|:----:|
 |Integer<br>Unique<br>Primary Key|Integer<br>Foreign Key|Integer<br>Foreign Key|
 
 ## User
 
-|ID|Username|Password|Avatar|
-|:-:|:-----:|:------:|:----:|
-|Integer<br>Unique<br>Primary Key|String|String|String|
+|Username|Password|Avatar|
+|:-----:|:------:|:----:|
+|String<br>Primary Key|String|String|

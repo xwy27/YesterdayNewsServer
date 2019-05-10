@@ -3,6 +3,11 @@ const dbConfig = require('../config/database');
 const syncFunc = require('../utils/customSync');
 const dbLogger = require('../utils/logger')('dbLogger');
 
+/**
+ * Add a user into database.
+ * @param {Object} user new user to be added
+ * @return {Array} [err, bool] is returned and iff [null, true] indicates success.
+ */
 async function addUser(user) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT username
@@ -34,6 +39,11 @@ async function addUser(user) {
   return [null, true];
 }
 
+/**
+ * Check user with username and password in database
+ * @param {Object} user user to be checked
+ * @return {Array} [err, bool] is returned and iff [null, true] indicates success.
+ */
 async function checkUser(user) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT username
@@ -55,6 +65,37 @@ async function checkUser(user) {
   return [null, true];
 }
 
+/**
+ * Get user info with username in database
+ * @param {Object} user user to be retrieved
+ * @return {Array} [err, user] is returned and iff [null, user] indicates success.
+ */
+async function getUserInfo(username) {
+  let [err, rows] = await syncFunc(db.execSQL(
+    `SELECT username, telephone, avatar
+    FROM ${dbConfig.userTable}
+    WHERE username=${db.escape(username)}`
+  ));
+
+  if (err) {
+    dbLogger.error(`Error to find user: ${username}, error message: ${err}`);
+    return [err, null];
+  }
+  
+  if (rows.length === 0) {
+    dbLogger.error(`No match user: ${username}`);
+    return [null, null];
+  }
+
+  dbLogger.info(`Find user: ${username}`);
+  return [null, rows[0]];
+}
+
+/**
+ * Update user info with specific username in database
+ * @param {Object} user user to be updated
+ * @return {Array} [err, bool] is returned and iff [null, true] indicates success.
+ */
 async function updateUserInfo(user) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT username
@@ -82,6 +123,11 @@ async function updateUserInfo(user) {
   return [null, true];
 }
 
+/**
+ * Change user password with username and old password in database
+ * @param {Object} user user to be changed password
+ * @return {Array} [err, bool] is returned and iff [null, true] indicates success.
+ */
 async function updateUserPassword(user) {
   let [err, status] = await checkUser({
     username: user.username,
@@ -106,4 +152,12 @@ async function updateUserPassword(user) {
   
   dbLogger.info(`Change user(${user.username}) password`);
   return [null, true];
+}
+
+module.exports = {
+  addUser: addUser,
+  checkUser: checkUser,
+  getUserInfo: getUserInfo,
+  updateUserInfo: updateUserInfo,
+  updateUserPassword: updateUserPassword
 }

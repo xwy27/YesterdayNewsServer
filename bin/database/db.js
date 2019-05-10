@@ -24,13 +24,13 @@ let execSQL = (sql, values) => {
   });
 };
 
+// Init user table
 execSQL(`CREATE TABLE IF NOT EXISTS ${dbConfig.userTable}
-         (uid INT UNSIGNED AUTO_INCREMENT,
-         username VARCHAR(200) NOT NULL,
+         (username VARCHAR(30) NOT NULL,
          password TEXT NOT NULL,
          telephone TEXT,
          avatar TEXT,
-         PRIMARY KEY(uid)`)
+         PRIMARY KEY(username)`)
   .then(result => {
     defaultLogger.info(`Successfully create ${dbConfig.userTable} table`);
   })

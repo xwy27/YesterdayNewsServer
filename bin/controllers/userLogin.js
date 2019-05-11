@@ -1,6 +1,10 @@
+const jwt = require('jsonwebtoken');
+
 const resLog = require('../utils/logger')('resLogger');
 const errLog = require('../utils/logger')('errLogger');
 const checkUser = require('../database/user').checkUser;
+
+const appConfig = require('../config/app');
 
 async function loginMatch(username, password) {
   let [err, status] = await checkUser({username: username, password: password});
@@ -13,6 +17,12 @@ let login = async ctx => {
   let password = body.password;
   resLog.info(`POST /user/login Data: user: ${username}, psd: ${password}`);
   if (loginMatch(username, password)) { // login success
+    const token = jwt.sign({user: username}, appConfig.secret, {expiresIn: '1h'}); // sign token
+    // set token inside cookie
+    ctx.cookies.set('jwt', token, {
+      httpOnly: true,
+      overwrite: false
+    });
     ctx.response.body = {
       message: 'success'
     };

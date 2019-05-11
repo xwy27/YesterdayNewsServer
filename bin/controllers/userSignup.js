@@ -32,7 +32,7 @@ let signup = async ctx => {
       };
     }
   } else {  // signup fail
-    errLog.error(`Data mismatch: user: ${user}, psd: ${password}`);
+    errLog.error(`User already exists: user: ${user}, psd: ${password}`);
     ctx.status = 401;
     ctx.response.body = {
       message: 'Invalid username'

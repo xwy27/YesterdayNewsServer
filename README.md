@@ -10,6 +10,12 @@ Back-end Server for YesterdayNews project
 
 ## Usage
 
+### API Reference
+
+[API-Design](./docs/API-Design.md)
+
+### Deployment
+
 1. Create database
 
     Run your MySQL and create `YesterdayNews` database.

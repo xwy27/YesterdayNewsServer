@@ -28,7 +28,7 @@ let login = async ctx => {
     };
   } else {  // login fail
     errLog.error(`Data mismatch: user: ${username}, psd: ${password}`);
-    ctx.status = 500;
+    ctx.status = 401;
     ctx.response.body = {
       message: 'Invalid username or password'
     };

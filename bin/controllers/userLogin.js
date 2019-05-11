@@ -2,8 +2,8 @@ const resLog = require('../utils/logger')('resLogger');
 const errLog = require('../utils/logger')('errLogger');
 const checkUser = require('../database/user').checkUser;
 
-function loginMatch(username, password) {
-  let [err, status] = checkUser({username: username, password: password});
+async function loginMatch(username, password) {
+  let [err, status] = await checkUser({username: username, password: password});
   return (err === null && status === true);
 }
 
@@ -18,7 +18,7 @@ let login = async ctx => {
     };
   } else {  // login fail
     errLog.error(`Data mismatch: user: ${username}, psd: ${password}`);
-    ctx.status = 401;
+    ctx.status = 500;
     ctx.response.body = {
       message: 'Invalid username or password'
     };

@@ -1,25 +1,62 @@
 const resLogger = require('../utils/logger')('resLogger');
 const errLogger = require('../utils/logger')('errLogger');
-const getUserInfo = require('../database/user').getUserInfo;
+const userDB = require('../database/user');
 
-let userInfo = async ctx => {
+let getUserInfo = async ctx => {
   let username = ctx.params.username;
-  resLogger.info(`GET /user/info/${username} Response: ...`);
-  let [err, info] = getUserInfo(username);
+  resLogger.info(`GET /user/info/${username}`);
+  let [err, info] = await userDB.getUserInfo(username);
   
-  if (err !== null) {
+  if (err !== null) { // error
     errLogger.error(`Fail to find user(${username}), error message: ${err}`);
-    ctx.status = 401;
+    ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
     }
-  } else {
+  } else if (info === null) { // no match data
+    ctx.status = 401;
+    ctx.response.body = {
+      message: 'No match user.'
+    }
+  } else {  // success
     ctx.response.body = {
       username: info
     }
   }
 }
 
+let updateUserInfo = async ctx => {
+  let body = ctx.request.body;
+  let username = body.username;
+  let telephone = body.telephone;
+  let avatar = body.avatar;
+
+  resLogger.info(`POST /user/info/${username}`);
+  let [err, info] = await userDB.updateUserInfo({
+    username: username,
+    telephone: telephone,
+    avatar: avatar
+  });
+  
+  if (err !== null) { // error
+    errLogger.error(`Fail to find user(${username}), error message: ${err}`);
+    ctx.status = 500;
+    ctx.response.body = {
+      message: 'Internal server error'
+    }
+  } else if (info !== true) { // no match data
+    ctx.status = 401;
+    ctx.response.body = {
+      message: 'No match user.'
+    }
+  } else {  // success
+    ctx.response.body = {
+      message: 'success'
+    }
+  }
+}
+
 module.exports = {
-  'GET /user/info/:username': userInfo
+  'POST /user/info': updateUserInfo,
+  'GET /user/info/:username': getUserInfo
 }

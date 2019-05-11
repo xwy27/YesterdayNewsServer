@@ -1,8 +1,9 @@
 const resLog = require('../utils/logger')('resLogger');
 const errLog = require('../utils/logger')('errLogger');
 const userDB = require('../database/user');
-function isValid(username, password) {
-  let [err, status] = userDB.checkUser({username: username, password: password});
+
+async function isValid(username, password) {
+  let [err, status] = await userDB.checkUser({username: username, password: password});
   return (err === null && status === true);
 }
 
@@ -10,17 +11,18 @@ let signup = async ctx => {
   let body = ctx.request.body;
   let username = body.username;
   let password = body.password;
+  let telephone = body.telephone;
   resLog.info(`POST /user/signup Data: user: ${username}, psd: ${password}`);
   if (isValid(username, password)) {
-    let [err, status] = userDB.addUser({
+    let [err, status] = await userDB.addUser({
       username: username,
       password: password,
       telephone: telephone
     });
 
     if (err !== null || status !== true) {  // fail to add into db
-      errLog.err(`Fail to add user(${username}), error message: ${err}`);
-      ctx.status = 401;
+      errLog.error(`Fail to add user(${username}), error message: ${err}`);
+      ctx.status = 500;
       ctx.response.body = {
         message: 'Internal server error'
       };

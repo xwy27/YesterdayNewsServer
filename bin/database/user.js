@@ -16,7 +16,7 @@ async function addUser(user) {
   ));
   
   if (err) {
-    dbLogger.error(`Error to add user: ${user}, error message: ${err}`);
+    dbLogger.error(`Error to add user: ${user.username}, error message: ${err}`);
     return [err, false];
   }
   
@@ -27,15 +27,15 @@ async function addUser(user) {
   
   [err, rows] = await syncFunc(db.execSQL(
     `INSERT INTO ${dbConfig.userTable} (username, password, telephone)
-    VALUES('${db.escape(user.username)}', '${db.escape(user.password)}', '${db.escape(user.telephone)}')`
+    VALUES(${db.escape(user.username)}, ${db.escape(user.password)}, ${db.escape(user.telephone)})`
   ));
 
   if (err) {
-    dbLogger.error(`Error to add user: ${user}, error message: ${err}`);
+    dbLogger.error(`Error to add user: ${user.username}, error message: ${err}`);
     return [err, false];
   }
 
-  dbLogger.info(`Add user: ${user}`);
+  dbLogger.info(`Add user: ${user.username}`);
   return [null, true];
 }
 
@@ -52,16 +52,16 @@ async function checkUser(user) {
   ));
 
   if (err) {
-    dbLogger.error(`Error to find user: ${user}, error message: ${err}`);
+    dbLogger.error(`Error to find user: ${user.username}, error message: ${err}`);
     return [err, false];
   }
   
   if (rows.length === 0) {
-    dbLogger.error(`No match user: ${user}`);
+    dbLogger.error(`No match user: ${user.username}`);
     return [null, false];
   }
 
-  dbLogger.info(`Find user: ${user}`);
+  dbLogger.info(`Find user: ${user.username}`);
   return [null, true];
 }
 
@@ -115,8 +115,8 @@ async function updateUserInfo(user) {
 
   [err, rows] = await syncFunc(db.execSQL(
     `UPDATE ${dbConfig.userTable}
-    SET telephone='${db.escape(user.telephone)}', avatar='${db.escape(user.avatar)}'
-    WHERE username='${db.escape(user.username)}'`
+    SET telephone=${db.escape(user.telephone)}, avatar=${db.escape(user.avatar)}
+    WHERE username=${db.escape(user.username)}`
   ));
   
   dbLogger.info(`Update user(${user.username}) info`);
@@ -146,8 +146,8 @@ async function updateUserPassword(user) {
 
   [err, rows] = await syncFunc(db.execSQL(
     `UPDATE ${dbConfig.userTable}
-    SET password='${db.escape(user.newPassword)}'
-    WHERE username='${db.escape(user.username)}'`
+    SET password=${db.escape(user.newPassword)}
+    WHERE username=${db.escape(user.username)}`
   ));
   
   dbLogger.info(`Change user(${user.username}) password`);

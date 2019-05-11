@@ -238,7 +238,7 @@
 
   ```json
   {
-    "username": "username",
+		"username": "username",
 		"telephone": "tel",
 		"avatar": "url"
   }
@@ -302,7 +302,7 @@
 
   ```javascript
   axios.get('http://serverIP/user/info', {
-    username: "test",
+		username: "test",
 		telephone: "123",
 		avatar: "http://image.com/avatar"
   })
@@ -324,7 +324,7 @@
 
   ```json
   {
-    "username": "username",
+		"username": "username",
 		"password": "test"
   }
   ```
@@ -388,7 +388,7 @@
 
   ```javascript
   axios.get('http://serverIP/user/password', {
-    username: "test",
+		username: "test",
 		password: "test"
   })
     .then((res) => {

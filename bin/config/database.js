@@ -1,4 +1,5 @@
 module.exports = {
+  database: 'YesterdayNews',
   userTable: 'USERS',
   mysqlConfig: {
     host: '127.0.0.1',

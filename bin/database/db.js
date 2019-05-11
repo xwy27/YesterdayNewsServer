@@ -17,8 +17,8 @@ let execSQL = (sql, values) => {
           } else {
             resolve(rows);
           }
-          connection.release();
         });
+        connection.release();
       }
     });
   });
@@ -30,13 +30,14 @@ execSQL(`CREATE TABLE IF NOT EXISTS ${dbConfig.userTable}
          password TEXT NOT NULL,
          telephone TEXT,
          avatar TEXT,
-         PRIMARY KEY(username)`)
+         PRIMARY KEY(username))`)
   .then(result => {
     defaultLogger.info(`Successfully create ${dbConfig.userTable} table`);
   })
   .catch(err => {
     defaultLogger.error(err);
-  });
+  }
+);
 
 module.exports = { 
   execSQL: execSQL,

@@ -8,7 +8,7 @@ let getUserInfo = async ctx => {
   let [err, info] = await userDB.getUserInfo(username);
   
   if (err !== null) { // error
-    errLogger.error(`Fail to find user(${username}), error message: ${err}`);
+    errLogger.error(`Fail getting user(${user.username}) info, error message: ${err}`);
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
@@ -32,19 +32,19 @@ let updateUserInfo = async ctx => {
   let avatar = body.avatar;
 
   resLogger.info(`POST /user/info/${username}`);
-  let [err, info] = await userDB.updateUserInfo({
+  let [err, status] = await userDB.updateUserInfo({
     username: username,
     telephone: telephone,
     avatar: avatar
   });
   
   if (err !== null) { // error
-    errLogger.error(`Fail to find user(${username}), error message: ${err}`);
+    errLogger.error(`Fail updating user(${username}) info, error message: ${err}`);
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
     }
-  } else if (info !== true) { // no match data
+  } else if (status !== true) { // no match data
     ctx.status = 401;
     ctx.response.body = {
       message: 'No match user.'

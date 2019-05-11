@@ -38,4 +38,5 @@ Back-end Server for YesterdayNews project
 
 - AUTHENTICATION ERROR
     > Q:Error: ER_NOT_SUPPORTED_AUTH_MODE: Client does not support authentication protocol requested by server; consider upgrading MySQL client
+    >
     > A:Fix MySQL to v5.7. Because the newest version updates the encrypt algorithm for password which results the password mismatching.

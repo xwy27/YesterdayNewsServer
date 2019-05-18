@@ -13,7 +13,7 @@ let signup = async ctx => {
   let password = body.password;
   let telephone = body.telephone;
   resLog.info(`POST /user/signup Data: user: ${username}, psd: ${password}`);
-  if (isValid(username, password)) {
+  if (await isValid(username, password) !== true) {
     let [err, status] = await userDB.addUser({
       username: username,
       password: password,
@@ -32,7 +32,7 @@ let signup = async ctx => {
       };
     }
   } else {  // signup fail
-    errLog.error(`User already exists: user: ${user}, psd: ${password}`);
+    errLog.error(`User already exists: user: ${username}, psd: ${password}`);
     ctx.status = 401;
     ctx.response.body = {
       message: 'Invalid username'

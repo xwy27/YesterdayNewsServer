@@ -13,7 +13,7 @@ let signup = async ctx => {
   let password = body.password;
   let telephone = body.telephone;
   resLog.info(`POST /user/signup Data: user: ${username}, psd: ${password}`);
-  if (isValid(username, password)) {
+  if (await isValid(username, password)) {
     let [err, status] = await userDB.addUser({
       username: username,
       password: password,

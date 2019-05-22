@@ -49,7 +49,9 @@ async function addNews(news) {
 async function getNews(offset, count) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT group_id, title, author, time, image_infos, comments
-    FROM ${dbConfig.newsTable}`
+    FROM ${dbConfig.newsTable}
+    ORDER BY time
+    LIMIT ${db.escape(count)} OFFSET ${db.escape(offset)}`
   ));
   
   if (err) {

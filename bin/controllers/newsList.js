@@ -6,7 +6,7 @@ let getNews = async ctx => {
   let offset = ctx.params.offset;
   let count = ctx.params.count;
   resLogger.info(`GET /news/list/offset=${offset}&count=${count}`);
-  let [err, news] = await newsDB.getNews(offset, count);
+  let [err, news] = await newsDB.getNews(parseInt(offset), parseInt(count));
   if (err !== null) {
     errLogger.error(`Fail getting news with offset:${offset}, count:${count}`);
     ctx.status = 500;

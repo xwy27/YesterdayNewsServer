@@ -112,17 +112,22 @@ async function updateUserInfo(user) {
     dbLogger.error(`No match user(${user.username}) to update info`);
     return [null, false];
   }
-
+  
   [err, rows] = await syncFunc(db.execSQL(
     `UPDATE ${dbConfig.userTable}
     SET telephone=${db.escape(user.telephone)}, avatar=${db.escape(user.avatar)}
     WHERE username=${db.escape(user.username)}`
-  ));
+    ));
+    
+    if (err) {
+      dbLogger.error(`Error to update user(${user.username}) info, error message: ${err}`);
+      return [err, false];    
+    }
+    
+    dbLogger.info(`Update user(${user.username}) info`);
+    return [null, true];
+  }
   
-  dbLogger.info(`Update user(${user.username}) info`);
-  return [null, true];
-}
-
 /**
  * Change user password with username and old password in database
  * @param {Object} user user to be changed password
@@ -150,6 +155,11 @@ async function updateUserPassword(user) {
     WHERE username=${db.escape(user.username)}`
   ));
   
+  if (err) {
+    dbLogger.error(`Error to update user(${user.username}) password, error message: ${err}`);
+    return [err, false];    
+  }
+
   dbLogger.info(`Change user(${user.username}) password`);
   return [null, true];
 }

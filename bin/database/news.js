@@ -16,7 +16,7 @@ async function addNews(news) {
   ));
 
   if (err) {
-    dbLogger.error(`Error to add news: ${news.group_id}`);
+    dbLogger.error(`Error to add news: ${news.group_id}, error message::${err}`);
     return [err, false];
   }
 
@@ -24,15 +24,15 @@ async function addNews(news) {
     dbLogger.error(`Fail to add existed news: ${news.group_id}`);
     return [null, false];
   }
-
+  
   [err, rows] = await syncFunc(db.execSQL(
     `INSERT INTO ${dbConfig.newsTable} (group_id, title, time, author, image_infos, content)
-    VALUES(${db.escape(news.group_id)}, ${db.escape(news.title)}, ${db.escape(news.time)},
-      ${db.escape(news.author)}, ${db.escape(news.image_infos)}, ${db.escape(news.content)})`
+    VALUES (${db.escape(news.group_id)}, ${db.escape(news.title)}, ${db.escape(news.time)},
+      ${db.escape(news.author)}, '${JSON.stringify(news.image_infos)}', ${db.escape(news.content)});`
     ));
   
   if (err) {
-    dbLogger.error(`Error to add news: ${news.group_id}`);
+    dbLogger.error(`Error to add news: ${news.group_id}, err:${err}`);
     return [err, false];
   }
 
@@ -53,7 +53,7 @@ async function getNews(offset, count) {
   ));
   
   if (err) {
-    dbLogger.error(`Error to get news at offset:${offset} with count:${count}`);
+    dbLogger.error(`Error to get news at offset:${offset} with count:${count}, error message::${err}`);
     return [err, null];
   }
   

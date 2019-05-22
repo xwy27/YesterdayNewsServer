@@ -18,7 +18,7 @@ async function addComment(userID, newsID, content) {
     ));
   
   if (err) {
-    dbLogger.error(`Error to add comment: ${userID}, ${newsID}`);
+    dbLogger.error(`Error to add comment: ${userID}, ${newsID},  error message:${err}`);
     return [err, null];
   }
 
@@ -45,7 +45,7 @@ async function getComments(newsID) {
   ));
   
   if (err) {
-    dbLogger.error(`Error to get comment for news:${newsID}`);
+    dbLogger.error(`Error to get comment for news:${newsID}, error message:${err}`);
     return [err, null];
   }
   

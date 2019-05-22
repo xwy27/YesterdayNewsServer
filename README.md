@@ -25,16 +25,24 @@ Back-end Server for YesterdayNews project
 
 1. Update database configuration
 
-    To make connection with your MySQL, update `config/database.js` with your own configuration.
+    To make connection with your MySQL, update `config/database.js` with your own `mysqlConfig`.
 
-1. Install dependency
+2. Import News data
+
+    We provide some test news for you to start the service, run the command below to import data.
+
+    ```bash
+    npm run import
+    ```
+
+3. Install dependency
 
     ```bash
     cd YesterdayNewsServer
     npm install
     ```
 
-1. Start
+4. Start
 
     ```bash
     npm start

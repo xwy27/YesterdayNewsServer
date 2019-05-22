@@ -1,5 +1,80 @@
 # API-Design
 
+## News
+
+### /news/list/offset=:offset&&count=:count
+
+#### Type - Get
+
+#### Response
+
+- Response 200
+
+  ```json
+  {
+    "data": [
+      {
+        "group_id": "id",
+        "author": "author",
+        "time": "4412000000",
+        "title": "title",
+        "images_info": "json string",
+        "comments": 0
+      }, {
+        "group_id": "id",
+        "author": "author",
+        "time": "4412000000",
+        "title": "title",
+        "images_info": "json string",
+        "comments": 0
+      }
+    ]
+  }
+  ```
+
+- Response 500
+
+  ```json
+  {
+    "message": "err msg"
+  }
+  ```
+
+#### Request Sample
+
+- Objective-c
+
+  ```objc
+  NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+  NSURLSession *session = [NSURLSession sessionWithConfiguration: config
+                                                        delegate: (id)self
+                                                   delegateQueue: nil];
+  NSURL *url = [NSURL URLWithString:@"http://serverIP/news/list/offset=0&count=10"];
+
+  NSURLSessionDataTask *dataTask =
+    [session dataTaskWithURL: url completionHandler: ^(NSData *data, NSURLResponse *response, NSError *err) {
+      if (nil == err) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData: data
+                                                             options: 0
+                                                               error: nil];
+        // code with dict data
+      }
+  }];
+  [dataTask resume];
+  ```
+
+- javascript
+
+  ```javascript
+  axios.get('http://serverIP/news/list/offset=0&count=10')
+    .then((res) => {
+      // code with res
+    });
+    .catch((err) => {
+      // code with err
+    });
+  ```
+
 ## User
 
 ### /user/login
@@ -202,7 +277,7 @@
   NSURLSession *session = [NSURLSession sessionWithConfiguration: config
                                                         delegate: (id)self
                                                    delegateQueue: nil];
-  NSURL *url = [NSURL URLWithString:@"http://serverIP/api/user/info/0"];
+  NSURL *url = [NSURL URLWithString:@"http://serverIP/user/info/0"];
 
   NSURLSessionDataTask *dataTask =
     [session dataTaskWithURL: url completionHandler: ^(NSData *data, NSURLResponse *response, NSError *err) {
@@ -219,7 +294,7 @@
 - javascript
 
   ```javascript
-  axios.get('http://serverIP/api/user/info/0')
+  axios.get('http://serverIP/user/info/0')
     .then((res) => {
       // code with res
     });

@@ -16,7 +16,7 @@ let getComment = async ctx => {
   }
 
   ctx.response.body = {
-    data: comments
+    comments: comments
   }
 }
 

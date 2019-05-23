@@ -25,10 +25,11 @@ const CREATE_NEWS_TABLE =
   PRIMARY KEY(group_id))
   ENGINE=InnoDB CHARSET=utf8mb4;`;
 const CREATE_COMMENTS_TABLE = 
-  `CREATE TABLE IF NOT EXISTS ${dbConfig.commentTable}
+`CREATE TABLE IF NOT EXISTS ${dbConfig.commentTable}
   (ID INT UNSIGNED AUTO_INCREMENT,
   userID VARCHAR(30) NOT NULL,
   newsID VARCHAR(30) NOT NULL,
+  time TEXT NOT NULL,
   content TEXT NOT NULL,
   PRIMARY KEY(ID),
   FOREIGN KEY(userID) REFERENCES ${dbConfig.userTable}(username),

@@ -11,10 +11,10 @@ const dbLogger = require('../utils/logger')('dbLogger');
  * @param {string} content comment content
  * @return {Array} [err, insert comment id]
  */
-async function addComment(userID, newsID, content) {
+async function addComment(userID, newsID, time, content) {
   let [err, rows] = await syncFunc(db.execSQL(
-    `INSERT INTO ${dbConfig.commentTable} (userID, newsID, content)
-    VALUES(${db.escape(userID)}, ${db.escape(newsID)}, ${db.escape(content)})`
+    `INSERT INTO ${dbConfig.commentTable} (userID, newsID, time, content)
+    VALUES(${db.escape(userID)}, ${db.escape(newsID)}, ${db.escape(time)}, ${db.escape(content)})`
     ));
   
   if (err) {
@@ -41,7 +41,8 @@ async function getComments(newsID) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT *
     FROM ${dbConfig.commentTable}
-    WHERE newsID = ${newsID}`
+    WHERE newsID = ${newsID}
+    ORDER BY time`
   ));
   
   if (err) {

@@ -42,7 +42,7 @@ async function getComments(newsID) {
     `SELECT *
     FROM ${dbConfig.commentTable}
     WHERE newsID = ${newsID}
-    ORDER BY time`
+    ORDER BY stars, time`
   ));
   
   if (err) {
@@ -52,6 +52,28 @@ async function getComments(newsID) {
   
   dbLogger.info(`Get comment for news:${newsID}`);
   return [null, rows];
+}
+
+/**
+ * Update comment star, add or delete
+ * @param {int} commentID comment to be updated
+ * @param {bool} type true for add, false for delete
+ */
+async function updateStarCount(commentID, type) {
+  let symbol = (type ? '+' : '-');
+  let [err, rows] = await syncFunc(db.execSQL(
+    `UPDATE ${dbConfig.commentTable}
+    SET stars = stars ${symbol} 1
+    WHERE commentID = ${commentID}`
+  ));
+
+  if (err) {
+    dbLogger.error(`Error to update comment:${commentID} star, error message: ${err}`);
+    return [err, false];    
+  }
+
+  dbLogger.info(`Update comment:${commentID} star`);
+  return [null, true];
 }
 
 /**
@@ -68,5 +90,6 @@ async function clearComments() {
 module.exports = {
   addComment: addComment,
   getComments: getComments,
+  updateStarCount: updateStarCount,
   clearComments: clearComments
 }

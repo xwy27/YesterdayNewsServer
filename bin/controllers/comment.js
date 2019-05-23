@@ -1,6 +1,7 @@
 const resLogger = require('../utils/logger')('resLogger');
 const errLogger = require('../utils/logger')('errLogger');
 const commentDB = require('../database/comment');
+const newsDB = require('../database/news');
 
 let getComment = async ctx => {
   let newsID = ctx.params.newsID;
@@ -42,6 +43,8 @@ let addComment = async ctx => {
       message: 'Internal server error'
     }
   }
+
+  await newsDB.updateNewsComments(newsID);
 
   ctx.response.body = {
     data: commentID

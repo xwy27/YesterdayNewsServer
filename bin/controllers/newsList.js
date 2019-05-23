@@ -8,7 +8,7 @@ let getNews = async ctx => {
   resLogger.info(`GET /news/list/offset=${offset}&count=${count}`);
   let [err, news] = await newsDB.getNews(parseInt(offset), parseInt(count));
   if (err !== null) {
-    errLogger.error(`Fail getting news with offset:${offset}, count:${count}`);
+    errLogger.error(`Fail getting news with offset:${offset}, count:${count}, error msg:${err}`);
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'

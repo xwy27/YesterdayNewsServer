@@ -64,6 +64,28 @@ async function getNews(offset, count) {
 }
 
 /**
+ * retrieve the content of news with ID
+ * @param {string} newsID news ID
+ * @return {string} content of news
+ */
+async function getNewsContent(newsID) {
+  let [err, rows] = await syncFunc(db.execSQL(
+    `SELECT content
+    FROM ${dbConfig.newsTable}
+    WHERE group_id=${db.escape(newsID)}`
+  ));
+  
+  if (err) {
+    dbLogger.error(`Error to get news:${newsID} content, error message::${err}`);
+    return [err, null];
+  }
+  
+  dbLogger.info(`Get news:${newsID} content`);
+  return [null, rows[0]];
+
+}
+
+/**
  * Update news comment counts
  * @param {string} newsID news to be updated
  * @param {int} comments new comments number
@@ -99,6 +121,7 @@ async function clearNews() {
 module.exports = {
   addNews: addNews,
   getNews: getNews,
+  getNewsContent: getNewsContent,
   updateNewsComments: updateNewsComments,
   clearNews: clearNews
 }

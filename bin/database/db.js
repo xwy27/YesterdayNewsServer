@@ -26,14 +26,25 @@ const CREATE_NEWS_TABLE =
   ENGINE=InnoDB CHARSET=utf8mb4;`;
 const CREATE_COMMENTS_TABLE = 
 `CREATE TABLE IF NOT EXISTS ${dbConfig.commentTable}
-  (ID INT UNSIGNED AUTO_INCREMENT,
+  (commentID INT UNSIGNED AUTO_INCREMENT,
   userID VARCHAR(30) NOT NULL,
   newsID VARCHAR(30) NOT NULL,
+  stars INT DEFAULT 0,
   time TEXT NOT NULL,
   content TEXT NOT NULL,
-  PRIMARY KEY(ID),
+  PRIMARY KEY(commentID),
   FOREIGN KEY(userID) REFERENCES ${dbConfig.userTable}(username),
   FOREIGN KEY(newsID) REFERENCES ${dbConfig.newsTable}(group_id))
+  ENGINE=InnoDB CHARSET=utf8mb4;`;
+
+const CREATE_STAR_TABLE = 
+`CREATE TABLE IF NOT EXISTS ${dbConfig.starTable}
+  (starID INT UNSIGNED AUTO_INCREMENT,
+  commentID INT UNSIGNED NOT NULL,
+  userID VARCHAR(30) NOT NULL,
+  PRIMARY KEY(starID),
+  FOREIGN KEY(userID) REFERENCES ${dbConfig.userTable}(username),
+  FOREIGN KEY(commentID) REFERENCES ${dbConfig.commentTable}(commentID))
   ENGINE=InnoDB CHARSET=utf8mb4;`;
 
 
@@ -64,10 +75,14 @@ execSQL(CREATE_NEWS_TABLE)
   })
   .then(result => {
     defaultLogger.info(`Successfully create ${dbConfig.userTable} table`);
-    return execSQL(CREATE_USEER_TABLE);
+    return execSQL(CREATE_COMMENTS_TABLE);
   })
   .then(result => {
     defaultLogger.info(`Successfully create ${dbConfig.commentTable} table`);
+    return execSQL(CREATE_STAR_TABLE);
+  })
+  .then(result => {
+    defaultLogger.info(`Successfully create ${dbConfig.starTable} table`);
   })
   .catch(err => {
     defaultLogger.error(err);

@@ -3,6 +3,7 @@ module.exports = {
   userTable: 'USERS',
   newsTable: 'NEWS',
   commentTable: 'COMMENTS',
+  starTable: 'STAR',
   mysqlConfig: {
     host: '192.168.99.100',
     user: 'root',

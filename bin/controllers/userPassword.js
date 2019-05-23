@@ -6,13 +6,23 @@ let updateUserPassword = async ctx => {
   let body = ctx.request.body;
   let username = body.username;
   let oldPassword = body.oldPassword;
-  let newPassowrd = body.newPassword;
+  let newsPassword = body.newPassword;
+
+  if (username === undefined || oldPassword === undefined ||
+    newsPassword === undefined || username === '' || oldPassword === '' ||
+    newsPassword === '') {
+      errLogger.error(`Fail updating password for wrong data`);
+      ctx.status = 400;
+      ctx.response.body = {
+        message: 'Incorrect password'
+      }
+  }
 
   resLogger.info(`POST /user/password`);
   let [err, status] = await userDB.updateUserPassword({
     username: username,
     oldPassword: oldPassword,
-    newPassowrd: newPassowrd
+    newsPassword: newsPassword
   });
   
   if (err !== null) { // error

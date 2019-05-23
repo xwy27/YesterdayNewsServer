@@ -13,6 +13,16 @@ let signup = async ctx => {
   let password = body.password;
   let telephone = body.telephone;
   resLog.info(`POST /user/signup Data: user: ${username}, psd: ${password}`);
+  
+  if (username === undefined || password === undefined || telephone === undefined ||
+    username === '' || password === '' || telephone === '') {
+      errLogger.error(`Fail signing up for wrong data`);
+      ctx.status = 400;
+      ctx.response.body = {
+        message: 'Incorrect user data'
+      }
+  }
+  
   if (await isValid(username, password) !== true) {
     let [err, status] = await userDB.addUser({
       username: username,

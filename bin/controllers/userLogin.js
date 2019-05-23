@@ -15,6 +15,13 @@ let login = async ctx => {
   let body = ctx.request.body;
   let username = body.username;
   let password = body.password;
+  if (username === undefined || password === undefined) {
+    errLogger.error(`Fail logging in for incomplete data`);
+    ctx.status = 401;
+    ctx.response.body = {
+      message: 'Invalid username or password'
+    }
+  }
   resLog.info(`POST /user/login Data: user: ${username}, psd: ${password}`);
   if (await loginMatch(username, password)) { // login success
     const token = jwt.sign({user: username}, appConfig.secret, {expiresIn: '1h'}); // sign token

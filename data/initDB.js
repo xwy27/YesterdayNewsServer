@@ -51,3 +51,5 @@ fs.readFile(path.join(__dirname, 'newsData.json'), (err, data) => {
     console.log('\n[Success] News data added into database!');
   }
 });
+console.log('\n[Success] News data added into database!');
+console.log(`----------  END  INITIALIZATION ----------`);

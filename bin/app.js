@@ -10,7 +10,7 @@ const appConfig = require('./config/app');
 const app = new Koa();
 
 app.use(koaJWT({secret: appConfig.secret, cookie: 'jwt'})
-  .unless({path: ['/user/login', '/user/signup', /^\/index/, /^\/comment\/newsID/]}));
+  .unless({path: ['/user/login', '/user/signup', /^\/news/, /^\/comment\/newsID/]}));
 
 // Add body middleware
 app.use(body());

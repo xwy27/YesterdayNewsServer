@@ -5,7 +5,7 @@ module.exports = {
   commentTable: 'COMMENTS',
   starTable: 'STAR',
   mysqlConfig: {
-    host: '192.168.99.100',
+    host: '127.0.0.1',
     user: 'root',
     password: '123456',
     database: 'YesterdayNews',

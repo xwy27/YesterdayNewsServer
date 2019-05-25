@@ -16,7 +16,7 @@ let signup = async ctx => {
   
   if (username === undefined || password === undefined || telephone === undefined ||
     username === '' || password === '' || telephone === '') {
-      errLogger.error(`Fail signing up for wrong data`);
+      errLog.error(`Fail signing up for wrong data`);
       ctx.status = 400;
       ctx.response.body = {
         message: 'Incorrect user data'

@@ -1,6 +1,6 @@
 # YesterdayNewsServer
 
-Back-end Server for YesterdayNews project
+Back-end Server for [YesterdayNews](https://github.com/CookiesChen/YesterdayNews) project
 
 ## Dependecy
 
@@ -19,6 +19,7 @@ Back-end Server for YesterdayNews project
 1. Create database
 
     Run your MySQL and create `YesterdayNews` database.
+
     ```sql
     CREATE DATABASE IF NOT EXISTS YesterdayNews;
     ```
@@ -27,7 +28,14 @@ Back-end Server for YesterdayNews project
 
     To make connection with your MySQL, update `config/database.js` with your own `mysqlConfig`.
 
-2. Import News data
+1. Install dependency
+
+    ```bash
+    cd YesterdayNewsServer
+    npm install
+    ```
+
+1. Import News data
 
     We provide some test news for you to start the service, run the command below to import data.
 
@@ -35,14 +43,7 @@ Back-end Server for YesterdayNews project
     npm run import
     ```
 
-3. Install dependency
-
-    ```bash
-    cd YesterdayNewsServer
-    npm install
-    ```
-
-4. Start
+1. Start
 
     ```bash
     npm start

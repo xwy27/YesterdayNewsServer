@@ -21,6 +21,7 @@ let signup = async ctx => {
       ctx.response.body = {
         message: 'Incorrect user data'
       }
+      return;
   }
   
   if (await isValid(username, password) !== true) {

@@ -16,6 +16,7 @@ let updateUserPassword = async ctx => {
       ctx.response.body = {
         message: 'Incorrect password'
       }
+      return;
   }
 
   resLogger.info(`POST /user/password`);

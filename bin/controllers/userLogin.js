@@ -21,6 +21,7 @@ let login = async ctx => {
     ctx.response.body = {
       message: 'Invalid username or password'
     }
+    return;
   }
   resLog.info(`POST /user/login Data: user: ${username}, psd: ${password}`);
   if (await loginMatch(username, password)) { // login success

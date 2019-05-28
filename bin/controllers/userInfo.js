@@ -1,3 +1,7 @@
+const crypto = require('crypto');
+const path = require('path');
+const fs = require('fs');
+
 const resLogger = require('../utils/logger')('resLogger');
 const errLogger = require('../utils/logger')('errLogger');
 const userDB = require('../database/user');
@@ -29,13 +33,11 @@ let updateUserInfo = async ctx => {
   let body = ctx.request.body;
   let username = body.username;
   let telephone = body.telephone;
-  let avatar = body.avatar;
 
   resLogger.info(`POST /user/info/${username}`);
   let [err, status] = await userDB.updateUserInfo({
     username: username,
-    telephone: telephone,
-    avatar: avatar
+    telephone: telephone
   });
   
   if (err !== null) { // error
@@ -56,7 +58,37 @@ let updateUserInfo = async ctx => {
   }
 }
 
+let uploadAvatar = async ctx => {
+  let username = ctx.request.body.username;
+  // let files = ctx.request.files.file;
+  // resLogger.info(`POST /user/avatar`);
+  // let avatarName = crypto.createHash('md5').update(username).digest('hex');
+  // fs.writeFile(path.join(__dirname, `../static/image/avatar/${avatarName}`), files);
+  // let [err, status] = await userDB.updateUserAvatar({
+  //   username: username,
+  //   avatar: avatarName
+  // });
+
+  // if (err !== null) { // error
+  //   errLogger.error(`Fail updating user(${username}) avatar, error message: ${err}`);
+  //   ctx.status = 500;
+  //   ctx.response.body = {
+  //     message: 'Internal server error'
+  //   }
+  // } else if (status !== true) { // no match data
+  //   ctx.status = 401;
+  //   ctx.response.body = {
+  //     message: 'No match user.'
+  //   }
+  // } else {  // success
+  //   ctx.response.body = {
+  //     avatar: avatarName
+  //   }
+  // }
+}
+
 module.exports = {
   'POST /user/info': updateUserInfo,
-  'GET /user/info/:username': getUserInfo
+  'GET /user/info/:username': getUserInfo,
+  'POST /user/avatar': uploadAvatar
 }

@@ -115,19 +115,57 @@ async function updateUserInfo(user) {
   
   [err, rows] = await syncFunc(db.execSQL(
     `UPDATE ${dbConfig.userTable}
-    SET telephone=${db.escape(user.telephone)}, avatar=${db.escape(user.avatar)}
+    SET telephone=${db.escape(user.telephone)}
     WHERE username=${db.escape(user.username)}`
     ));
     
-    if (err) {
-      dbLogger.error(`Error to update user(${user.username}) info, error message: ${err}`);
-      return [err, false];    
-    }
-    
-    dbLogger.info(`Update user(${user.username}) info`);
-    return [null, true];
+  if (err) {
+    dbLogger.error(`Error to update user(${user.username}) info, error message: ${err}`);
+    return [err, false];    
   }
   
+  dbLogger.info(`Update user(${user.username}) info`);
+  return [null, true];
+}
+  
+
+/**
+ * Update user avatar with specific username in database
+ * @param {Object} user user to be updated
+ * @return {Array} [err, bool] is returned and iff [null, true] indicates success.
+ */
+async function updateUserAvatar(user) {
+  let [err, rows] = await syncFunc(db.execSQL(
+    `SELECT username
+    FROM ${dbConfig.userTable}
+    WHERE username=${db.escape(user.username)}`
+  ));
+
+  if (err) {
+    dbLogger.error(`Error to update user(${user.username}) info, error message: ${err}`);
+    return [err, false];
+  }
+  
+  if (rows.length === 0) {
+    dbLogger.error(`No match user(${user.username}) to update info`);
+    return [null, false];
+  }
+  
+  [err, rows] = await syncFunc(db.execSQL(
+    `UPDATE ${dbConfig.userTable}
+    SET avatar=${db.escape(user.avatar)}
+    WHERE username=${db.escape(user.username)}`
+    ));
+    
+  if (err) {
+    dbLogger.error(`Error to update user(${user.username}) avatar, error message: ${err}`);
+    return [err, false];    
+  }
+  
+  dbLogger.info(`Update user(${user.username}) info`);
+  return [null, true];
+}
+
 /**
  * Change user password with username and old password in database
  * @param {Object} user user to be changed password
@@ -169,5 +207,6 @@ module.exports = {
   checkUser: checkUser,
   getUserInfo: getUserInfo,
   updateUserInfo: updateUserInfo,
+  updateUserAvatar: updateUserAvatar,
   updateUserPassword: updateUserPassword
 }

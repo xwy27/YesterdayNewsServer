@@ -24,16 +24,16 @@ Back-end Server for [YesterdayNews](https://github.com/CookiesChen/YesterdayNews
     CREATE DATABASE IF NOT EXISTS YesterdayNews;
     ```
 
-1. Update database configuration
-
-    To make connection with your MySQL, update `config/database.js` with your own `mysqlConfig`.
-
 1. Install dependency
 
     ```bash
     cd YesterdayNewsServer
     npm install
     ```
+
+1. Update database configuration
+
+    To make connection with your MySQL, update `config/database.js` with your own `mysqlConfig` like `    host`,`user` and `password`.
 
 1. Import News data
 

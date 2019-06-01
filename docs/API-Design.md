@@ -749,7 +749,7 @@
 
 	```json
 	{
-		"message": "success"
+		"avatar": "avatar file name string"
 	}
 	```
 

@@ -14,14 +14,14 @@
     - [获取新闻评论列表](#获取新闻评论列表)
       - [Response](#response-2)
       - [Request Sample](#request-sample-2)
-    - [获取个人评论列表](#获取个人评论列表)
+    - [获取个人评论新闻列表](#获取个人评论新闻列表)
       - [Response](#response-3)
       - [Request Sample](#request-sample-3)
     - [提交评论](#提交评论)
       - [Response](#response-4)
       - [Request Sample](#request-sample-4)
   - [Star](#star)
-    - [获取个人点赞列表](#获取个人点赞列表)
+    - [获取个人点赞新闻列表](#获取个人点赞新闻列表)
       - [Response](#response-5)
       - [Request Sample](#request-sample-5)
     - [提交点赞](#提交点赞)
@@ -52,6 +52,26 @@
     - [修改用户密码](#修改用户密码)
       - [Response](#response-14)
       - [Request Sample](#request-sample-14)
+  - [Collection](#collection)
+    - [获取个人收藏新闻列表](#获取个人收藏新闻列表)
+      - [Response](#response-15)
+      - [Request Sample](#request-sample-15)
+    - [提交收藏](#提交收藏)
+      - [Response](#response-16)
+      - [Request Sample](#request-sample-16)
+    - [删除收藏](#删除收藏)
+      - [Response](#response-17)
+      - [Request Sample](#request-sample-17)
+  - [History](#history)
+    - [获取个人历史浏览新闻列表](#获取个人历史浏览新闻列表)
+      - [Response](#response-18)
+      - [Request Sample](#request-sample-18)
+    - [提交历史新闻](#提交历史新闻)
+      - [Response](#response-19)
+      - [Request Sample](#request-sample-19)
+    - [删除历史新闻](#删除历史新闻)
+      - [Response](#response-20)
+      - [Request Sample](#request-sample-20)
 
 <!-- /TOC -->
 
@@ -1213,6 +1233,510 @@
   axios.get('http://serverIP/user/password', {
 		username: "test",
 		password: "test"
+  })
+    .then((res) => {
+      // code with res
+    });
+    .catch((err) => {
+      // code with err
+    });
+  ```
+
+## Collection
+
+### 获取个人收藏新闻列表
+
+- **URL: /collection/username=:username**
+
+- **Type: GET**
+
+#### Response
+
+- Response 200
+
+  ```json
+  {
+    "data": [
+      {
+        "newsID": "newsID",
+        "newsTitle": "newsTitle",
+        "author": "author",
+        "time": "time",
+        "stars": 123,
+        "comments": 123
+      }, {
+        "newsID": "newsID",
+        "newsTitle": "newsTitle",
+        "author": "author",
+        "time": "time",
+        "stars": 123,
+        "comments": 123
+      }
+    ]
+  }
+  ```
+
+- Response 400
+
+  ```json
+  {
+    "message": "msg"
+  }
+  ```
+
+- Response 500
+
+  ```json
+  {
+    "message": "err msg"
+  }
+  ```
+
+#### Request Sample
+
+- Objective-c
+
+  ```objc
+  NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+  NSURLSession *session = [NSURLSession sessionWithConfiguration: config
+                                                        delegate: (id)self
+                                                   delegateQueue: nil];
+  NSURL *url = [NSURL URLWithString:@"http://serverIP/collection/username=username"];
+
+  NSURLSessionDataTask *dataTask =
+    [session dataTaskWithURL: url completionHandler: ^(NSData *data, NSURLResponse *response, NSError *err) {
+      if (nil == err) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData: data
+                                                             options: 0
+                                                               error: nil];
+        // code with dict data
+      }
+  }];
+  [dataTask resume];
+  ```
+
+- javascript
+
+  ```javascript
+  axios.get('http://serverIP/collection/username=username')
+    .then((res) => {
+      // code with res
+    });
+    .catch((err) => {
+      // code with err
+    });
+  ```
+
+### 提交收藏
+
+- **URL: /collection/creation**
+
+- **Type: Post**
+
+- Data
+
+  ```json
+  {
+    "userID": "username",
+    "newsID": "newsID"
+  }
+  ```
+
+#### Response
+
+- Response 200
+
+  ```json
+  {
+    "count": 12
+  }
+  ```
+
+- Response 400
+
+  ```json
+  {
+    "message": "msg"
+  }
+  ```
+
+- Response 500
+
+  ```json
+  {
+    "message": "err msg"
+  }
+  ```
+
+#### Request Sample
+
+- Objective-c
+
+  ```objc
+  NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+  NSURLSession *session = [NSURLSession sessionWithConfiguration: config
+                                                        delegate: nil
+                                                   delegateQueue: nil];
+    NSURL *url = [NSURL URLWithString:@"http://serverIP/collection/creation"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    NSString *params = @"userID=test&commentID=123";
+    [request setHTTPBody:[params dataUsingEncoding:NSUTF8StringEncoding]];
+
+    NSURLSessionDataTask *dataTask =
+      [session dataTaskWithRequest: request completionHandler: ^(NSData *data, NSURLResponse *res, NSError *err) {
+        if (nil == err) {
+          NSDictionary *dict = [NSJSONSerialization JSONObjectWithData: data
+                                                               options: 0
+                                                                 error: nil];
+          // code with dict data
+        }
+    }];
+
+    [dataTask resume];
+  ```
+
+- javascript
+
+  ```javascript
+  axios.post('http://serverIP/collection/creation', {
+    userID: "username",
+    commentID: 123
+  })
+    .then((res) => {
+      // code with res
+    });
+    .catch((err) => {
+      // code with err
+    });
+  ```
+
+### 删除收藏
+
+- **URL: /collection/deletion**
+
+- **Type: POST**
+
+- Data
+
+  ```json
+  {
+    "userID": "username",
+    "newsID": "newsID"
+  }
+  ```
+
+#### Response
+
+- Response 200
+  ```json
+  {
+    "message": "success"
+  }
+  ```
+
+- Response 400
+
+  ```json
+  {
+    "message": "err msg"
+  }
+  ```
+
+- Response 500
+
+  ```json
+  {
+    "message": "err msg"
+  }
+  ```
+
+#### Request Sample
+
+- Objective-c
+
+  ```objc
+  NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+  NSURLSession *session = [NSURLSession sessionWithConfiguration: config
+                                                        delegate: nil
+                                                   delegateQueue: nil];
+    NSURL *url = [NSURL URLWithString:@"http://serverIP/collection/deletion"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    NSString *params = @"userID=test&commentID=123";
+    [request setHTTPBody:[params dataUsingEncoding:NSUTF8StringEncoding]];
+
+    NSURLSessionDataTask *dataTask =
+      [session dataTaskWithRequest: request completionHandler: ^(NSData *data, NSURLResponse *res, NSError *err) {
+        if (nil == err) {
+          NSDictionary *dict = [NSJSONSerialization JSONObjectWithData: data
+                                                               options: 0
+                                                                 error: nil];
+          // code with dict data
+        }
+    }];
+
+    [dataTask resume];
+  ```
+
+- javascript
+
+  ```javascript
+  axios.post('http://serverIP/collection/deletion', {
+    userID: "username",
+    commentID: 123
+  })
+    .then((res) => {
+      // code with res
+    });
+    .catch((err) => {
+      // code with err
+    });
+  ```
+
+## History
+
+### 获取个人历史浏览新闻列表
+
+- **URL: /history/username=:username**
+
+- **Type: GET**
+
+#### Response
+
+- Response 200
+
+  ```json
+  {
+    "data": [
+      {
+        "newsID": "newsID",
+        "newsTitle": "newsTitle",
+        "author": "author",
+        "time": "time",
+        "stars": 123,
+        "comments": 123
+      }, {
+        "newsID": "newsID",
+        "newsTitle": "newsTitle",
+        "author": "author",
+        "time": "time",
+        "stars": 123,
+        "comments": 123
+      }
+    ]
+  }
+  ```
+
+- Response 400
+
+  ```json
+  {
+    "message": "msg"
+  }
+  ```
+
+- Response 500
+
+  ```json
+  {
+    "message": "err msg"
+  }
+  ```
+
+#### Request Sample
+
+- Objective-c
+
+  ```objc
+  NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+  NSURLSession *session = [NSURLSession sessionWithConfiguration: config
+                                                        delegate: (id)self
+                                                   delegateQueue: nil];
+  NSURL *url = [NSURL URLWithString:@"http://serverIP/history/username=username"];
+
+  NSURLSessionDataTask *dataTask =
+    [session dataTaskWithURL: url completionHandler: ^(NSData *data, NSURLResponse *response, NSError *err) {
+      if (nil == err) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData: data
+                                                             options: 0
+                                                               error: nil];
+        // code with dict data
+      }
+  }];
+  [dataTask resume];
+  ```
+
+- javascript
+
+  ```javascript
+  axios.get('http://serverIP/history/username=username')
+    .then((res) => {
+      // code with res
+    });
+    .catch((err) => {
+      // code with err
+    });
+  ```
+
+### 提交历史新闻
+
+- **URL: /history/creation**
+
+- **Type: Post**
+
+- Data
+
+  ```json
+  {
+    "userID": "username",
+    "newsID": "newsID"
+  }
+  ```
+
+#### Response
+
+- Response 200
+
+  ```json
+  {
+    "count": 12
+  }
+  ```
+
+- Response 400
+
+  ```json
+  {
+    "message": "msg"
+  }
+  ```
+
+- Response 500
+
+  ```json
+  {
+    "message": "err msg"
+  }
+  ```
+
+#### Request Sample
+
+- Objective-c
+
+  ```objc
+  NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+  NSURLSession *session = [NSURLSession sessionWithConfiguration: config
+                                                        delegate: nil
+                                                   delegateQueue: nil];
+    NSURL *url = [NSURL URLWithString:@"http://serverIP/history/creation"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    NSString *params = @"userID=test&commentID=123";
+    [request setHTTPBody:[params dataUsingEncoding:NSUTF8StringEncoding]];
+
+    NSURLSessionDataTask *dataTask =
+      [session dataTaskWithRequest: request completionHandler: ^(NSData *data, NSURLResponse *res, NSError *err) {
+        if (nil == err) {
+          NSDictionary *dict = [NSJSONSerialization JSONObjectWithData: data
+                                                               options: 0
+                                                                 error: nil];
+          // code with dict data
+        }
+    }];
+
+    [dataTask resume];
+  ```
+
+- javascript
+
+  ```javascript
+  axios.post('http://serverIP/history/creation', {
+    userID: "username",
+    commentID: 123
+  })
+    .then((res) => {
+      // code with res
+    });
+    .catch((err) => {
+      // code with err
+    });
+  ```
+
+### 删除历史新闻
+
+- **URL: /history/deletion**
+
+- **Type: POST**
+
+- Data
+
+  ```json
+  {
+    "userID": "username",
+    "newsID": "newsID"
+  }
+  ```
+
+#### Response
+
+- Response 200
+  ```json
+  {
+    "message": "success"
+  }
+  ```
+
+- Response 400
+
+  ```json
+  {
+    "message": "err msg"
+  }
+  ```
+
+- Response 500
+
+  ```json
+  {
+    "message": "err msg"
+  }
+  ```
+
+#### Request Sample
+
+- Objective-c
+
+  ```objc
+  NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+  NSURLSession *session = [NSURLSession sessionWithConfiguration: config
+                                                        delegate: nil
+                                                   delegateQueue: nil];
+    NSURL *url = [NSURL URLWithString:@"http://serverIP/history/deletion"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    NSString *params = @"userID=test&commentID=123";
+    [request setHTTPBody:[params dataUsingEncoding:NSUTF8StringEncoding]];
+
+    NSURLSessionDataTask *dataTask =
+      [session dataTaskWithRequest: request completionHandler: ^(NSData *data, NSURLResponse *res, NSError *err) {
+        if (nil == err) {
+          NSDictionary *dict = [NSJSONSerialization JSONObjectWithData: data
+                                                               options: 0
+                                                                 error: nil];
+          // code with dict data
+        }
+    }];
+
+    [dataTask resume];
+  ```
+
+- javascript
+
+  ```javascript
+  axios.post('http://serverIP/history/deletion', {
+    userID: "username",
+    commentID: 123
   })
     .then((res) => {
       // code with res

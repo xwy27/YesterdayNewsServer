@@ -2,7 +2,7 @@ const mysql = require('mysql');
 
 const dbConfig = require('../config/database');
 const table = dbConfig.table;
-const defaultLogger = require('../utils/logger')('default');
+const dbLogger = require('../utils/logger')('dbLogger');
 
 const pool = mysql.createPool(dbConfig.mysqlConfig);
 
@@ -87,30 +87,30 @@ let execSQL = (sql, values) => {
 // Init news table
 execSQL(CREATE_NEWS_TABLE)
   .then(result => {
-    defaultLogger.info(`Successfully create ${table.news} table`);
+    dbLogger.info(`Successfully create ${table.news} table`);
     return execSQL(CREATE_USEER_TABLE);
   })
   .then(result => {
-    defaultLogger.info(`Successfully create ${table.user} table`);
+    dbLogger.info(`Successfully create ${table.user} table`);
     return execSQL(CREATE_COMMENTS_TABLE);
   })
   .then(result => {
-    defaultLogger.info(`Successfully create ${table.comment} table`);
+    dbLogger.info(`Successfully create ${table.comment} table`);
     return execSQL(CREATE_STAR_TABLE);
   })
   .then(result => {
-    defaultLogger.info(`Successfully create ${table.star} table`);
+    dbLogger.info(`Successfully create ${table.star} table`);
     return execSQL(CREATE_COLLECTION_TABLE);
   })
   .then(result => {
-    defaultLogger.info(`Successfully create ${table.collection} table`);
+    dbLogger.info(`Successfully create ${table.collection} table`);
     return execSQL(CREATE_HISTORY_TABLE);
   })
   .then(result => {
-    defaultLogger.info(`Successfully create ${table.history} table`);
+    dbLogger.info(`Successfully create ${table.history} table`);
   })
   .catch(err => {
-    defaultLogger.error(err);
+    dbLogger.error(err);
   });
 
 module.exports = { 

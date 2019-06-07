@@ -97,7 +97,7 @@ let getUserStars = async ctx => {
 }
 
 module.exports = {
-  'POST /star/username=:username': getUserStars,
+  'GET /star/username=:username': getUserStars,
   'POST /star/creation': addStar,
   'POST /star/deletion': removeStar
 }

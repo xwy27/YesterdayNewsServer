@@ -29,7 +29,7 @@ describe('Database testing', () => {
     await userDB.removeUser('test');
     await userDB.removeUser('test2');
 
-    // process.exit(0);
+    process.exit(0);
   });
 
   // ------------------------------ USER TESETING ------------------------------

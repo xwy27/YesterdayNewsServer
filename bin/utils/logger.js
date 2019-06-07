@@ -27,7 +27,7 @@ log4js.configure({
       type: 'dateFile',
       path: ERROR_LOG_DIR,
       filename: ERROR_LOG_PATH,
-      pattern: '-yyyy-MM-dd-hh.log',
+      pattern: '-yyyy-MM-dd.log',
       alwaysIncludePattern: true,
       encoding: 'utf-8',
       maxLogSize: 1000

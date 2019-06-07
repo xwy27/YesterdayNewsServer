@@ -4,7 +4,7 @@
   "description": "Back-end Server for YesterdayNews",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/.bin/mocha",
     "import": "node ./data/initDB.js",
     "start": "node ./bin/app.js"
   },

@@ -127,7 +127,7 @@
 
 ## Comment
 
-### 获取评论列表
+### 获取新闻评论列表
 
 #### /comment/newsID=:newsID
 
@@ -200,6 +200,91 @@
 
   ```javascript
   axios.get('http://serverIP/comment/newsID=newsID')
+    .then((res) => {
+      // code with res
+    });
+    .catch((err) => {
+      // code with err
+    });
+  ```
+
+### 获取个人评论列表
+
+#### /comment/username=:username
+
+- **Type：GET**
+
+#### Response
+
+- Response 200
+
+  ```json
+  {
+    "data": [
+      {
+        "commentID": 1,
+        "newsID": "newsID",
+        "newsTitle": "newsTitle",
+        "author": "author",
+        "time": "time",
+        "stars": 123,
+        "comments": 123
+      }, {
+        "commentID": 2,
+        "newsID": "newsID",
+        "newsTitle": "newsTitle",
+        "author": "author",
+        "time": "time",
+        "stars": 123,
+        "comments": 123
+      }
+    ]
+  }
+  ```
+
+- Response 400
+
+  ```json
+  {
+    "message": "msg"
+  }
+  ```
+
+- Response 500
+
+  ```json
+  {
+    "message": "err msg"
+  }
+  ```
+
+#### Request Sample
+
+- Objective-c
+
+  ```objc
+  NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+  NSURLSession *session = [NSURLSession sessionWithConfiguration: config
+                                                        delegate: (id)self
+                                                   delegateQueue: nil];
+  NSURL *url = [NSURL URLWithString:@"http://serverIP/comment/username=username"];
+
+  NSURLSessionDataTask *dataTask =
+    [session dataTaskWithURL: url completionHandler: ^(NSData *data, NSURLResponse *response, NSError *err) {
+      if (nil == err) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData: data
+                                                             options: 0
+                                                               error: nil];
+        // code with dict data
+      }
+  }];
+  [dataTask resume];
+  ```
+
+- javascript
+
+  ```javascript
+  axios.get('http://serverIP/comment/username=username')
     .then((res) => {
       // code with res
     });
@@ -296,6 +381,90 @@
   ```
 
 ## Star
+
+### 获取个人点赞列表
+
+#### /star/username=:username
+
+- **Type：GET**
+
+#### Response
+
+- Response 200
+
+  ```json
+  {
+    "data": [
+      {
+        "newsID": "newsID",
+        "newsTitle": "newsTitle",
+        "author": "author",
+        "time": "time",
+        "stars": 123,
+        "comments": 123
+      }, {
+        "commentID": 2,
+        "newsID": "newsID",
+        "newsTitle": "newsTitle",
+        "author": "author",
+        "time": "time",
+        "stars": 123,
+        "comments": 123
+      }
+    ]
+  }
+  ```
+
+- Response 400
+
+  ```json
+  {
+    "message": "msg"
+  }
+  ```
+
+- Response 500
+
+  ```json
+  {
+    "message": "err msg"
+  }
+  ```
+
+#### Request Sample
+
+- Objective-c
+
+  ```objc
+  NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+  NSURLSession *session = [NSURLSession sessionWithConfiguration: config
+                                                        delegate: (id)self
+                                                   delegateQueue: nil];
+  NSURL *url = [NSURL URLWithString:@"http://serverIP/star/username=username"];
+
+  NSURLSessionDataTask *dataTask =
+    [session dataTaskWithURL: url completionHandler: ^(NSData *data, NSURLResponse *response, NSError *err) {
+      if (nil == err) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData: data
+                                                             options: 0
+                                                               error: nil];
+        // code with dict data
+      }
+  }];
+  [dataTask resume];
+  ```
+
+- javascript
+
+  ```javascript
+  axios.get('http://serverIP/star/username=username')
+    .then((res) => {
+      // code with res
+    });
+    .catch((err) => {
+      // code with err
+    });
+  ```
 
 ### 提交点赞
 

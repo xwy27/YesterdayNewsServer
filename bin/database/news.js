@@ -94,8 +94,8 @@ async function getNewsContent(newsID) {
 async function updateNewsComments(newsID) {
   let [err, rows] = await syncFunc(db.execSQL(
     `UPDATE ${dbConfig.newsTable}
-    SET comments = comments + 1}
-    WHERE group_id = ${newsID}`
+    SET comments = comments + 1
+    WHERE group_id = ${db.escape(newsID)}`
   ));
 
   if (err) {

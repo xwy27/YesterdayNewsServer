@@ -24,7 +24,7 @@ let addStar = async ctx => {
     }
   }
 
-  let [error, count] = await starDB.countStar(commentID);
+  let [error, data] = await starDB.countStar(commentID);
   
   if (error) {
     errLogger.error(`Fail add star for comment:${commentID}, user:${userID}, error msg:${err}`);
@@ -37,7 +37,7 @@ let addStar = async ctx => {
   await commentDB.updateStarCount(commentID, true);
 
   ctx.response.body = {
-    count: count
+    count: data.count
   }
 }
 
@@ -62,7 +62,7 @@ let removeStar = async ctx => {
     }
   }
   
-  let [error, count] = await starDB.countStar(commentID);
+  let [error, data] = await starDB.countStar(commentID);
   
   if (error) {
     errLogger.error(`Fail delete star for comment:${commentID}, user:${userID}, error msg:${err}`);
@@ -75,7 +75,7 @@ let removeStar = async ctx => {
   await commentDB.updateStarCount(commentID, false);
 
   ctx.response.body = {
-    count: count
+    count: data.count
   }
 }
 

@@ -33,8 +33,8 @@ const CREATE_COMMENTS_TABLE =
   time TEXT NOT NULL,
   content TEXT NOT NULL,
   PRIMARY KEY(commentID),
-  FOREIGN KEY(userID) REFERENCES ${dbConfig.userTable}(username),
-  FOREIGN KEY(newsID) REFERENCES ${dbConfig.newsTable}(group_id))
+  FOREIGN KEY(userID) REFERENCES ${dbConfig.userTable}(username) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY(newsID) REFERENCES ${dbConfig.newsTable}(group_id) ON DELETE CASCADE ON UPDATE CASCADE)
   ENGINE=InnoDB CHARSET=utf8mb4;`;
 
 const CREATE_STAR_TABLE = 
@@ -43,8 +43,8 @@ const CREATE_STAR_TABLE =
   commentID INT UNSIGNED NOT NULL,
   userID VARCHAR(30) NOT NULL,
   PRIMARY KEY(starID),
-  FOREIGN KEY(userID) REFERENCES ${dbConfig.userTable}(username),
-  FOREIGN KEY(commentID) REFERENCES ${dbConfig.commentTable}(commentID))
+  FOREIGN KEY(userID) REFERENCES ${dbConfig.userTable}(username) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY(commentID) REFERENCES ${dbConfig.commentTable}(commentID) ON DELETE CASCADE ON UPDATE CASCADE)
   ENGINE=InnoDB CHARSET=utf8mb4;`;
 
 

@@ -13,16 +13,12 @@ const dbLogger = require('../utils/logger')('dbLogger');
 async function addStar(userID, commentID) {
   let [err, rows] = await syncFunc(db.execSQL(
     `INSERT INTO ${dbConfig.starTable} (userID, commentID)
-    VALUES(${db.escape(userID)}, ${db.escape(commentID)}})`
+    VALUES(${db.escape(userID)}, ${db.escape(commentID)})`
     ));
   
   if (err) {
     dbLogger.error(`Error to add star, user:${userID}, comment:${commentID},  error message:${err}`);
     return [err, null];
-  }
-
-  if (error) {
-    return [error, null];
   }
 
   dbLogger.info(`Add star, user:${userID}, comment:${commentID}`);
@@ -57,8 +53,9 @@ async function removeStar(userID, commentID) {
  */
 async function countStar(commentID) {
   let [err, rows] = await syncFunc(db.execSQL(
-    `SELECT COUNT(*)
+    `SELECT commentID, COUNT(*) AS count
     FROM ${dbConfig.starTable}
+    WHERE commentID = ${db.escape(commentID)}
     GROUP BY commentID`
   ));
   
@@ -69,6 +66,28 @@ async function countStar(commentID) {
 
   dbLogger.info(`Count star for comment:${commentID}`);
   return [null, rows[0]];
+}
+
+/**
+ * Return stared news list for user
+ * @param {string} username stared user
+ * @return {array} stared news list for user if there exists
+ */
+async function getUserStars(username) {
+  let [err, rows] = await syncFunc(db.execSQL(
+    `SELECT n.group_id, n.title, n.author, n.time, n.comments, c.commentID, c.stars
+    FROM ${dbConfig.newsTable} n, ${dbConfig.commentTable} c, ${dbConfig.starTable} s
+    WHERE s.userID = ${db.escape(username)} AND s.commentID = c.commentID AND c.newsID = n.group_id
+    ORDER BY n.time`
+  ));
+  
+  if (err) {
+    dbLogger.error(`Error to get stars list for user:${username}, error message:${err}`);
+    return [err, null];
+  }
+  
+  dbLogger.info(`Get stars list for user:${username}`);
+  return [null, rows];
 }
 
 /**
@@ -86,5 +105,6 @@ module.exports = {
   addStar: addStar,
   countStar: countStar,
   removeStar: removeStar,
+  getUserStars: getUserStars,
   clearStars: clearStars
 }

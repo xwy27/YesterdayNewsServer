@@ -41,7 +41,7 @@ async function getComments(newsID) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT *
     FROM ${dbConfig.commentTable}
-    WHERE newsID = ${newsID}
+    WHERE newsID = ${db.escape(newsID)}
     ORDER BY stars, time`
   ));
   
@@ -51,6 +51,28 @@ async function getComments(newsID) {
   }
   
   dbLogger.info(`Get comment for news:${newsID}`);
+  return [null, rows];
+}
+
+/**
+ * Return commented news list for user
+ * @param {string} username commented user
+ * @return {array} commented news list for user if there exists
+ */
+async function getUserComments(username) {
+  let [err, rows] = await syncFunc(db.execSQL(
+    `SELECT n.group_id, n.title, n.author, n.time, n.comments, c.commentID, c.stars
+    FROM ${dbConfig.newsTable} n, ${dbConfig.commentTable} c
+    WHERE c.userID = ${db.escape(username)} AND c.newsID = n.group_id
+    ORDER BY n.time`
+  ));
+  
+  if (err) {
+    dbLogger.error(`Error to get comment for user:${username}, error message:${err}`);
+    return [err, null];
+  }
+  
+  dbLogger.info(`Get comment for user:${username}`);
   return [null, rows];
 }
 
@@ -90,6 +112,7 @@ async function clearComments() {
 module.exports = {
   addComment: addComment,
   getComments: getComments,
+  getUserComments: getUserComments,
   updateStarCount: updateStarCount,
   clearComments: clearComments
 }

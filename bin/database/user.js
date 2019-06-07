@@ -40,6 +40,26 @@ async function addUser(user) {
 }
 
 /**
+ * Remove a user from database.
+ * @param {string} username user to be removed
+ * @return {Array} [err, bool] is returned and iff [null, true] indicates success.
+ */
+async function removeUser(username) {
+  let [err, rows] = await syncFunc(db.execSQL(
+    `DELETE FROM ${dbConfig.userTable}
+    WHERE username=${db.escape(username)}`
+  ));
+  
+  if (err) {
+    dbLogger.error(`Error to remove user: ${username}, error message: ${err}`);
+    return [err, false];
+  }
+
+  dbLogger.info(`Remove user: ${username}`);
+  return [null, true];
+}
+
+/**
  * Check user with username and password in database
  * @param {Object} user user to be checked
  * @return {Array} [err, bool] is returned and iff [null, true] indicates success.
@@ -205,6 +225,7 @@ async function updateUserPassword(user) {
 module.exports = {
   addUser: addUser,
   checkUser: checkUser,
+  removeUser: removeUser,
   getUserInfo: getUserInfo,
   updateUserInfo: updateUserInfo,
   updateUserAvatar: updateUserAvatar,

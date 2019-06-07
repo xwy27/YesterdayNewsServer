@@ -1,5 +1,5 @@
 const db = require('./db');
-const dbConfig = require('../config/database');
+const table = require('../config/database').table;
 const syncFunc = require('../utils/customSync');
 const dbLogger = require('../utils/logger')('dbLogger');
 
@@ -11,7 +11,7 @@ const dbLogger = require('../utils/logger')('dbLogger');
 async function addUser(user) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT username
-    FROM ${dbConfig.userTable}
+    FROM ${table.user}
     WHERE username=${db.escape(user.username)}`
   ));
   
@@ -26,7 +26,7 @@ async function addUser(user) {
   }
   
   [err, rows] = await syncFunc(db.execSQL(
-    `INSERT INTO ${dbConfig.userTable} (username, password, telephone)
+    `INSERT INTO ${table.user} (username, password, telephone)
     VALUES(${db.escape(user.username)}, ${db.escape(user.password)}, ${db.escape(user.telephone)})`
   ));
 
@@ -46,7 +46,7 @@ async function addUser(user) {
  */
 async function removeUser(username) {
   let [err, rows] = await syncFunc(db.execSQL(
-    `DELETE FROM ${dbConfig.userTable}
+    `DELETE FROM ${table.user}
     WHERE username=${db.escape(username)}`
   ));
   
@@ -67,7 +67,7 @@ async function removeUser(username) {
 async function checkUser(user) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT username
-    FROM ${dbConfig.userTable}
+    FROM ${table.user}
     WHERE username=${db.escape(user.username)} AND password=${db.escape(user.password)}`
   ));
 
@@ -93,7 +93,7 @@ async function checkUser(user) {
 async function getUserInfo(username) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT username, telephone, avatar
-    FROM ${dbConfig.userTable}
+    FROM ${table.user}
     WHERE username=${db.escape(username)}`
   ));
 
@@ -119,7 +119,7 @@ async function getUserInfo(username) {
 async function updateUserInfo(user) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT username
-    FROM ${dbConfig.userTable}
+    FROM ${table.user}
     WHERE username=${db.escape(user.username)}`
   ));
 
@@ -134,7 +134,7 @@ async function updateUserInfo(user) {
   }
   
   [err, rows] = await syncFunc(db.execSQL(
-    `UPDATE ${dbConfig.userTable}
+    `UPDATE ${table.user}
     SET telephone=${db.escape(user.telephone)}
     WHERE username=${db.escape(user.username)}`
     ));
@@ -157,7 +157,7 @@ async function updateUserInfo(user) {
 async function updateUserAvatar(user) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT username
-    FROM ${dbConfig.userTable}
+    FROM ${table.user}
     WHERE username=${db.escape(user.username)}`
   ));
 
@@ -172,7 +172,7 @@ async function updateUserAvatar(user) {
   }
   
   [err, rows] = await syncFunc(db.execSQL(
-    `UPDATE ${dbConfig.userTable}
+    `UPDATE ${table.user}
     SET avatar=${db.escape(user.avatar)}
     WHERE username=${db.escape(user.username)}`
     ));
@@ -208,7 +208,7 @@ async function updateUserPassword(user) {
   }
 
   [err, rows] = await syncFunc(db.execSQL(
-    `UPDATE ${dbConfig.userTable}
+    `UPDATE ${table.user}
     SET password=${db.escape(user.newPassword)}
     WHERE username=${db.escape(user.username)}`
   ));

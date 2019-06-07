@@ -1,5 +1,5 @@
 const db = require('./db');
-const dbConfig = require('../config/database');
+const table = require('../config/database').table;
 const newsDB = require('./news');
 const syncFunc = require('../utils/customSync');
 const dbLogger = require('../utils/logger')('dbLogger');
@@ -13,7 +13,7 @@ const dbLogger = require('../utils/logger')('dbLogger');
  */
 async function addComment(userID, newsID, time, content) {
   let [err, rows] = await syncFunc(db.execSQL(
-    `INSERT INTO ${dbConfig.commentTable} (userID, newsID, time, content)
+    `INSERT INTO ${table.comment} (userID, newsID, time, content)
     VALUES(${db.escape(userID)}, ${db.escape(newsID)}, ${db.escape(time)}, ${db.escape(content)})`
     ));
   
@@ -40,7 +40,7 @@ async function addComment(userID, newsID, time, content) {
 async function getComments(newsID) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT *
-    FROM ${dbConfig.commentTable}
+    FROM ${table.comment}
     WHERE newsID = ${db.escape(newsID)}
     ORDER BY stars, time`
   ));
@@ -62,7 +62,7 @@ async function getComments(newsID) {
 async function getUserComments(username) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT n.group_id, n.title, n.author, n.time, n.comments, c.commentID, c.stars
-    FROM ${dbConfig.newsTable} n, ${dbConfig.commentTable} c
+    FROM ${table.news} n, ${table.comment} c
     WHERE c.userID = ${db.escape(username)} AND c.newsID = n.group_id
     ORDER BY n.time`
   ));
@@ -84,7 +84,7 @@ async function getUserComments(username) {
 async function updateStarCount(commentID, type) {
   let symbol = (type ? '+' : '-');
   let [err, rows] = await syncFunc(db.execSQL(
-    `UPDATE ${dbConfig.commentTable}
+    `UPDATE ${table.comment}
     SET stars = stars ${symbol} 1
     WHERE commentID = ${commentID}`
   ));
@@ -103,7 +103,7 @@ async function updateStarCount(commentID, type) {
  */
 async function clearComments() {
   let [err, rows] = await syncFunc(db.execSQL(
-    `DELETE FROM ${dbConfig.commentTable}`
+    `DELETE FROM ${table.comment}`
   ));
 
   dbLogger.warn(`CLEAR COMMENTS...`);

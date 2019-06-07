@@ -1,5 +1,5 @@
 const db = require('./db');
-const dbConfig = require('../config/database');
+const table = require('../config/database').table;
 const syncFunc = require('../utils/customSync');
 const dbLogger = require('../utils/logger')('dbLogger');
 
@@ -11,7 +11,7 @@ const dbLogger = require('../utils/logger')('dbLogger');
 async function addNews(news) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT group_id
-    FROM ${dbConfig.newsTable}
+    FROM ${table.news}
     WHERE group_id=${db.escape(news.group_id)}`
   ));
 
@@ -26,7 +26,7 @@ async function addNews(news) {
   }
   
   [err, rows] = await syncFunc(db.execSQL(
-    `INSERT INTO ${dbConfig.newsTable} (group_id, title, time, author, image_infos, content)
+    `INSERT INTO ${table.news} (group_id, title, time, author, image_infos, content)
     VALUES (${db.escape(news.group_id)}, ${db.escape(news.title)}, ${db.escape(news.time)},
       ${db.escape(news.author)}, '${JSON.stringify(news.image_infos)}', ${db.escape(news.content)});`
     ));
@@ -49,7 +49,7 @@ async function addNews(news) {
 async function getNews(offset, count) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT group_id, title, author, time, image_infos, comments
-    FROM ${dbConfig.newsTable}
+    FROM ${table.news}
     ORDER BY time
     LIMIT ${db.escape(count)} OFFSET ${db.escape(offset)}`
   ));
@@ -71,7 +71,7 @@ async function getNews(offset, count) {
 async function getNewsContent(newsID) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT content
-    FROM ${dbConfig.newsTable}
+    FROM ${table.news}
     WHERE group_id=${db.escape(newsID)}`
   ));
   
@@ -93,7 +93,7 @@ async function getNewsContent(newsID) {
  */
 async function updateNewsComments(newsID) {
   let [err, rows] = await syncFunc(db.execSQL(
-    `UPDATE ${dbConfig.newsTable}
+    `UPDATE ${table.news}
     SET comments = comments + 1
     WHERE group_id = ${db.escape(newsID)}`
   ));
@@ -112,7 +112,7 @@ async function updateNewsComments(newsID) {
  */
 async function clearNews() {
   let [err, rows] = await syncFunc(db.execSQL(
-    `DELETE FROM ${dbConfig.newsTable}`
+    `DELETE FROM ${table.news}`
   ));
 
   dbLogger.warn(`CLEAR NEWS...`);

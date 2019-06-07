@@ -1,5 +1,5 @@
 const db = require('./db');
-const dbConfig = require('../config/database');
+const table = require('../config/database').table;
 const commentDB = require('./comment');
 const syncFunc = require('../utils/customSync');
 const dbLogger = require('../utils/logger')('dbLogger');
@@ -12,7 +12,7 @@ const dbLogger = require('../utils/logger')('dbLogger');
  */
 async function addStar(userID, commentID) {
   let [err, rows] = await syncFunc(db.execSQL(
-    `INSERT INTO ${dbConfig.starTable} (userID, commentID)
+    `INSERT INTO ${table.star} (userID, commentID)
     VALUES(${db.escape(userID)}, ${db.escape(commentID)})`
     ));
   
@@ -20,6 +20,8 @@ async function addStar(userID, commentID) {
     dbLogger.error(`Error to add star, user:${userID}, comment:${commentID},  error message:${err}`);
     return [err, null];
   }
+
+  await commentDB.updateStarCount(commentID, true);
 
   dbLogger.info(`Add star, user:${userID}, comment:${commentID}`);
   return [null, rows.insertId];
@@ -33,7 +35,7 @@ async function addStar(userID, commentID) {
  */
 async function removeStar(userID, commentID) {
   let [err, rows] = await syncFunc(db.execSQL(
-    `DELETE FROM ${dbConfig.starTable}
+    `DELETE FROM ${table.star}
     WHERE userID=${db.escape(userID)} AND commentID=${db.escape(commentID)}`
   ));
   
@@ -41,6 +43,8 @@ async function removeStar(userID, commentID) {
     dbLogger.error(`Error to remove star, user:${userID}, comment:${commentID},  error message:${err}`);
     return [err, false];
   }
+
+  await commentDB.updateStarCount(commentID, false);
 
   dbLogger.info(`Remove star, user:${userID}, comment:${commentID}`);
   return [null, true];
@@ -54,7 +58,7 @@ async function removeStar(userID, commentID) {
 async function countStar(commentID) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT commentID, COUNT(*) AS count
-    FROM ${dbConfig.starTable}
+    FROM ${table.star}
     WHERE commentID = ${db.escape(commentID)}
     GROUP BY commentID`
   ));
@@ -76,7 +80,7 @@ async function countStar(commentID) {
 async function getUserStars(username) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT n.group_id, n.title, n.author, n.time, n.comments, c.commentID, c.stars
-    FROM ${dbConfig.newsTable} n, ${dbConfig.commentTable} c, ${dbConfig.starTable} s
+    FROM ${table.news} n, ${table.comment} c, ${table.star} s
     WHERE s.userID = ${db.escape(username)} AND s.commentID = c.commentID AND c.newsID = n.group_id
     ORDER BY n.time`
   ));
@@ -95,7 +99,7 @@ async function getUserStars(username) {
  */
 async function clearStars() {
   let [err, rows] = await syncFunc(db.execSQL(
-    `DELETE FROM ${dbConfig.starTable}`
+    `DELETE FROM ${table.star}`
   ));
 
   dbLogger.warn(`CLEAR STARS...`);

@@ -3,7 +3,9 @@ const chai = require('chai');
 const newsDB = require('../bin/database/news');
 const userDB = require('../bin/database/user');
 const starDB = require('../bin/database/star');
+const historyDB = require('../bin/database/history');
 const commentDB = require('../bin/database/comment');
+const collectionDB = require('../bin/database/collection');
 
 describe('Database testing', () => {
   let commentID = 0;
@@ -26,10 +28,8 @@ describe('Database testing', () => {
   after(async () => {
     await userDB.removeUser('test');
     await userDB.removeUser('test2');
-    await commentDB.clearComments();
-    await starDB.clearStars();
 
-    process.exit(0);
+    // process.exit(0);
   });
 
   // ------------------------------ USER TESETING ------------------------------
@@ -133,6 +133,7 @@ describe('Database testing', () => {
     let [err, data] = await commentDB.getUserComments('test');
     chai.expect(err).to.be.a('null');
     chai.expect(data.length).to.equal(2);
+    chai.expect(data[0].stars).to.equal(0);
   });
 
   // ------------------------------ STAR TESTING ------------------------------
@@ -152,11 +153,56 @@ describe('Database testing', () => {
     let [err, data] = await starDB.getUserStars('test');
     chai.expect(err).to.be.a('null');
     chai.expect(data.length).to.equal(1);
+    chai.expect(data[0].stars).to.equal(0);
   });
 
   it('Remove star for comment', async () => {
     let [err, data] = await starDB.removeStar('test', commentID);
     chai.expect(err).to.be.a('null');
     chai.expect(data).to.equal(true);
+  });
+
+  // ------------------------------ COLLECTION TESTING ------------------------------
+  it('Add collection', async () => {
+    let [err, data] = await collectionDB.addCollection('test', newsID);
+    chai.expect(err).to.be.a('null');
+    chai.expect(data).to.be.a('Number');
+  });
+
+  it('Get collection list for user', async () => {
+    let [err, data] = await collectionDB.getUserCollection('test');
+    chai.expect(err).to.be.a('null');
+    chai.expect(data.length).to.equal(1);
+    chai.expect(data[0].stars).to.equal(1);
+  });
+
+  it('Remove collection', async () => {
+    let [err, data] = await collectionDB.removeCollection('test', newsID);
+    chai.expect(err).to.be.a('null');
+    chai.expect(data).to.equal(true);
+  });
+
+  // ------------------------------ HISTORY TESTING ------------------------------
+  it('Add history', async () => {
+    let [err, data] = await historyDB.addHistory('test', newsID);
+    chai.expect(err).to.be.a('null');
+    chai.expect(data).to.be.a('Number');
+  });
+
+  it('Get history list for user', async () => {
+    let [err, data] = await historyDB.getUserHistory('test');
+    chai.expect(err).to.be.a('null');
+    chai.expect(data.length).to.equal(1);
+    chai.expect(data[0].stars).to.equal(0);
+  });
+
+  it('Remove history', async () => {
+    let [err, data] = await historyDB.removeHistory('test', newsID);
+    chai.expect(err).to.be.a('null');
+    chai.expect(data).to.equal(true);
+
+    [err, data] = await historyDB.getUserHistory('test');
+    chai.expect(err).to.be.a('null');
+    chai.expect(data.length).to.equal(0);
   });
 });

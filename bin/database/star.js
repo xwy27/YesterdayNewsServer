@@ -79,10 +79,15 @@ async function countStar(commentID) {
  */
 async function getUserStars(username) {
   let [err, rows] = await syncFunc(db.execSQL(
-    `SELECT n.group_id, n.title, n.author, n.time, n.comments, c.commentID, c.stars
-    FROM ${table.news} n, ${table.comment} c, ${table.star} s
-    WHERE s.userID = ${db.escape(username)} AND s.commentID = c.commentID AND c.newsID = n.group_id
-    ORDER BY n.time`
+    `SELECT a.group_id, a.title, a.author, a.time, a.comments, ifnull(b.stars, 0) AS stars
+    FROM(SELECT n.group_id, n.title, n.author, n.time, n.comments, c.commentID, c.stars
+        FROM ${table.news} n, ${table.comment} c, ${table.star} s
+        WHERE s.userID = ${db.escape(username)} AND s.commentID = c.commentID AND c.newsID = n.group_id
+        ORDER BY n.time) AS a LEFT JOIN
+        (SELECT newsID, COUNT(*) AS stars
+        FROM ${table.collection} c1
+        GROUP BY c1.newsID) AS b
+    ON a.group_id = b.newsID`
   ));
   
   if (err) {

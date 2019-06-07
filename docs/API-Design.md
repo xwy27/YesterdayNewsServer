@@ -276,7 +276,7 @@
     });
   ```
 
-### 获取个人评论列表
+### 获取个人评论新闻列表
 
 - **URL: /comment/username=:username**
 
@@ -290,7 +290,6 @@
   {
     "data": [
       {
-        "commentID": 1,
         "newsID": "newsID",
         "newsTitle": "newsTitle",
         "author": "author",
@@ -298,7 +297,6 @@
         "stars": 123,
         "comments": 123
       }, {
-        "commentID": 2,
         "newsID": "newsID",
         "newsTitle": "newsTitle",
         "author": "author",
@@ -450,7 +448,7 @@
 
 ## Star
 
-### 获取个人点赞列表
+### 获取个人点赞新闻列表
 
 - **URL: /star/username=:username**
 
@@ -471,7 +469,6 @@
         "stars": 123,
         "comments": 123
       }, {
-        "commentID": 2,
         "newsID": "newsID",
         "newsTitle": "newsTitle",
         "author": "author",

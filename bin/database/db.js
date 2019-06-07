@@ -37,7 +37,6 @@ const CREATE_COMMENTS_TABLE =
   FOREIGN KEY(userID) REFERENCES ${table.user}(username) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(newsID) REFERENCES ${table.news}(group_id) ON DELETE CASCADE ON UPDATE CASCADE)
   ENGINE=InnoDB CHARSET=utf8mb4;`;
-
 const CREATE_STAR_TABLE = 
 `CREATE TABLE IF NOT EXISTS ${table.star}
   (starID INT UNSIGNED AUTO_INCREMENT,
@@ -47,7 +46,24 @@ const CREATE_STAR_TABLE =
   FOREIGN KEY(userID) REFERENCES ${table.user}(username) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(commentID) REFERENCES ${table.comment}(commentID) ON DELETE CASCADE ON UPDATE CASCADE)
   ENGINE=InnoDB CHARSET=utf8mb4;`;
-
+const CREATE_HISTORY_TABLE = 
+`CREATE TABLE IF NOT EXISTS ${table.history}
+  (historyID INT UNSIGNED AUTO_INCREMENT,
+  newsID VARCHAR(30) NOT NULL,
+  userID VARCHAR(30) NOT NULL,
+  PRIMARY KEY(historyID),
+  FOREIGN KEY(userID) REFERENCES ${table.user}(username) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY(newsID) REFERENCES ${table.news}(group_id) ON DELETE CASCADE ON UPDATE CASCADE)
+  ENGINE=InnoDB CHARSET=utf8mb4;`;
+const CREATE_COLLECTION_TABLE = 
+`CREATE TABLE IF NOT EXISTS ${table.collection}
+  (collectionID INT UNSIGNED AUTO_INCREMENT,
+  newsID VARCHAR(30) NOT NULL,
+  userID VARCHAR(30) NOT NULL,
+  PRIMARY KEY(collectionID),
+  FOREIGN KEY(userID) REFERENCES ${table.user}(username) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY(newsID) REFERENCES ${table.news}(group_id) ON DELETE CASCADE ON UPDATE CASCADE)
+  ENGINE=InnoDB CHARSET=utf8mb4;`;
 
 let execSQL = (sql, values) => {
   return new Promise((resolve, reject) => {
@@ -84,6 +100,14 @@ execSQL(CREATE_NEWS_TABLE)
   })
   .then(result => {
     defaultLogger.info(`Successfully create ${table.star} table`);
+    return execSQL(CREATE_COLLECTION_TABLE);
+  })
+  .then(result => {
+    defaultLogger.info(`Successfully create ${table.collection} table`);
+    return execSQL(CREATE_HISTORY_TABLE);
+  })
+  .then(result => {
+    defaultLogger.info(`Successfully create ${table.history} table`);
   })
   .catch(err => {
     defaultLogger.error(err);

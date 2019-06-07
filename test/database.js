@@ -28,6 +28,8 @@ describe('Database testing', () => {
     await userDB.removeUser('test2');
     await commentDB.clearComments();
     await starDB.clearStars();
+
+    process.exit(0);
   });
 
   // ------------------------------ USER TESETING ------------------------------

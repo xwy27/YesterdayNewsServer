@@ -1,5 +1,7 @@
 # YesterdayNewsServer
 
+[![Build Status](https://www.travis-ci.org/xwy27/YesterdayNewsServer.svg?branch=master)](https://www.travis-ci.org/xwy27/YesterdayNewsServer) [![Coverage Status](https://coveralls.io/repos/github/xwy27/YesterdayNewsServer/badge.svg?branch=master)](https://coveralls.io/github/xwy27/YesterdayNewsServer?branch=master)
+
 Back-end Server for [YesterdayNews](https://github.com/CookiesChen/YesterdayNews) project
 
 ## Dependecy

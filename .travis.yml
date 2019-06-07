@@ -1,0 +1,47 @@
+language: node_js
+
+# versions for deploying
+node_js:
+ - '10.0'
+ - '9.0'
+
+# External services
+services:
+ - mysql
+
+# travis caching
+cache:
+  directories:
+    - node_modules
+
+addons:
+  apt:
+    sources:
+      - mysql-5.7-trusty
+    packages:
+      - mysql-server
+      - mysql-client
+
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS YesterdayNews'
+
+install:
+  npm install
+
+before_script:
+  - echo "USE mysql;\nUPDATE user SET password=PASSWORD('123456') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
+  - sudo service mysql restart
+  - npm run import
+
+# script to run
+script:
+  npm run test
+
+# code coverage
+after_success:
+  npm run cover
+
+# toggle branch
+branches:
+  only:
+    - master

@@ -7,42 +7,51 @@
     - [获取新闻列表](#获取新闻列表)
       - [Response](#response)
       - [Request Sample](#request-sample)
-  - [Comment](#comment)
-    - [获取评论列表](#获取评论列表)
+    - [获取新闻详情](#获取新闻详情)
       - [Response](#response-1)
       - [Request Sample](#request-sample-1)
-    - [提交评论](#提交评论)
+  - [Comment](#comment)
+    - [获取新闻评论列表](#获取新闻评论列表)
       - [Response](#response-2)
       - [Request Sample](#request-sample-2)
-  - [Star](#star)
-    - [提交点赞](#提交点赞)
+    - [获取个人评论列表](#获取个人评论列表)
       - [Response](#response-3)
       - [Request Sample](#request-sample-3)
-    - [删除点赞](#删除点赞)
+    - [提交评论](#提交评论)
       - [Response](#response-4)
       - [Request Sample](#request-sample-4)
-  - [User](#user)
-    - [登陆](#登陆)
+  - [Star](#star)
+    - [获取个人点赞列表](#获取个人点赞列表)
       - [Response](#response-5)
       - [Request Sample](#request-sample-5)
-    - [注册](#注册)
+    - [提交点赞](#提交点赞)
       - [Response](#response-6)
       - [Request Sample](#request-sample-6)
-    - [获取用户头像](#获取用户头像)
+    - [删除点赞](#删除点赞)
       - [Response](#response-7)
       - [Request Sample](#request-sample-7)
-    - [获取用户信息](#获取用户信息)
+  - [User](#user)
+    - [登陆](#登陆)
       - [Response](#response-8)
       - [Request Sample](#request-sample-8)
-    - [修改用户头像](#修改用户头像)
+    - [注册](#注册)
       - [Response](#response-9)
       - [Request Sample](#request-sample-9)
-    - [修改用户信息](#修改用户信息)
+    - [获取用户头像](#获取用户头像)
       - [Response](#response-10)
       - [Request Sample](#request-sample-10)
-    - [修改用户密码](#修改用户密码)
+    - [获取用户信息](#获取用户信息)
       - [Response](#response-11)
       - [Request Sample](#request-sample-11)
+    - [修改用户头像](#修改用户头像)
+      - [Response](#response-12)
+      - [Request Sample](#request-sample-12)
+    - [修改用户信息](#修改用户信息)
+      - [Response](#response-13)
+      - [Request Sample](#request-sample-13)
+    - [修改用户密码](#修改用户密码)
+      - [Response](#response-14)
+      - [Request Sample](#request-sample-14)
 
 <!-- /TOC -->
 
@@ -52,9 +61,9 @@
 
 从 offset 开始，共 count 条
 
-#### /news/list/offset=:offset&&count=:count
+- **URL: /news/list/offset=:offset&&count=:count**
 
-- **Type：Get**
+- **Type: Get**
 
 #### Response
 
@@ -125,13 +134,72 @@
     });
   ```
 
+### 获取新闻详情
+
+- **URL: /news/content/id=:newsID'**
+
+- **Type: Get**
+
+#### Response
+
+- Response 200
+
+  ```json
+  {
+    "data": "content"
+  }
+  ```
+
+- Response 500
+
+  ```json
+  {
+    "message": "err msg"
+  }
+  ```
+
+#### Request Sample
+
+- Objective-c
+
+  ```objc
+  NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+  NSURLSession *session = [NSURLSession sessionWithConfiguration: config
+                                                        delegate: (id)self
+                                                   delegateQueue: nil];
+  NSURL *url = [NSURL URLWithString:@"http://serverIP/news/content/id=111sdfsd111'"];
+
+  NSURLSessionDataTask *dataTask =
+    [session dataTaskWithURL: url completionHandler: ^(NSData *data, NSURLResponse *response, NSError *err) {
+      if (nil == err) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData: data
+                                                             options: 0
+                                                               error: nil];
+        // code with dict data
+      }
+  }];
+  [dataTask resume];
+  ```
+
+- javascript
+
+  ```javascript
+  axios.get('http://serverIP/news/content/id=111sdfsd111')
+    .then((res) => {
+      // code with res
+    });
+    .catch((err) => {
+      // code with err
+    });
+  ```
+
 ## Comment
 
 ### 获取新闻评论列表
 
-#### /comment/newsID=:newsID
+- **URL: /comment/newsID=:newsID**
 
-- **Type：GET**
+- **Type: GET**
 
 #### Response
 
@@ -210,9 +278,9 @@
 
 ### 获取个人评论列表
 
-#### /comment/username=:username
+- **URL: /comment/username=:username**
 
-- **Type：GET**
+- **Type: GET**
 
 #### Response
 
@@ -295,9 +363,9 @@
 
 ### 提交评论
 
-#### /comment
+- **URL: /comment**
 
-- **Type：POST**
+- **Type: POST**
 
 - Data
 
@@ -384,9 +452,9 @@
 
 ### 获取个人点赞列表
 
-#### /star/username=:username
+- **URL: /star/username=:username**
 
-- **Type：GET**
+- **Type: GET**
 
 #### Response
 
@@ -468,9 +536,9 @@
 
 ### 提交点赞
 
-#### /star/creation
+- **URL: /star/creation**
 
-- **Type：Post**
+- **Type: Post**
 
 - Data
 
@@ -552,9 +620,9 @@
 
 ### 删除点赞
 
-#### /star/deletion
+- **URL: /star/deletion**
 
-- **Type：POST**
+- **Type: POST**
 
 - Data
 
@@ -637,9 +705,9 @@
 
 ### 登陆
 
-#### /user/login
+- **URL: /user/login**
 
-- **Type：Post**
+- **Type: Post**
 
 - Data
 
@@ -711,9 +779,9 @@
   ```
 ### 注册
 
-#### /user/signup
+- **URL: /user/signup**
 
-- **Type：Post**
+- **Type: Post**
 
 - Data
 
@@ -797,9 +865,9 @@
 
 *默认头像：MTc2MjI0NjU3MTIwMDE4MDIxMDU=.png*
 
-#### /image/avatar/:filename
+- **URL: /image/avatar/:filename**
 
-- **Type：GET**
+- **Type: GET**
 
 #### Response
 
@@ -826,9 +894,9 @@
 
 ### 获取用户信息
 
-#### /user/info/:username
+- **URL: /user/info/:username**
 
-- **Type：GET**
+- **Type: GET**
 
 #### Response
 
@@ -897,9 +965,9 @@
 
 ### 修改用户头像
 
-#### /user/avatar
+- **URL: /user/avatar**
 
-- **Type：POST**
+- **Type: POST**
 
 - Data
 
@@ -989,9 +1057,9 @@
 
 ### 修改用户信息
 
-#### /user/info
+- **URL: /user/info**
 
-- **Type：POST**
+- **Type: POST**
 
 - Data
 
@@ -1073,9 +1141,9 @@
 
 ### 修改用户密码
 
-#### /user/password
+- **URL: /user/password**
 
-- **Type：POST**
+- **Type: POST**
 
 - Data
 

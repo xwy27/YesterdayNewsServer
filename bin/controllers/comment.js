@@ -51,7 +51,25 @@ let addComment = async ctx => {
   }
 }
 
+let getUserComments = async ctx => {
+  let username = ctx.params.username;
+  resLogger.info(`GET /comment/username=${username}`);
+  let [err, data] = await commentDB.getUserComments(username);
+  if (err !== null) {
+    errLogger.error(`Fail getting comment news list for user:${username}, error msg:${err}`);
+    ctx.status = 500;
+    ctx.response.body = {
+      message: 'Internal server error'
+    }
+  }
+
+  ctx.response.body = {
+    data: data
+  }
+}
+
 module.exports = {
+  'GET /comment/username=:username': getUserComments,
   'GET /comment/newsID=:newsID': getComment,
   'POST /comment': addComment
 }

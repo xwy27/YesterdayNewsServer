@@ -79,7 +79,25 @@ let removeStar = async ctx => {
   }
 }
 
+let getUserStars = async ctx => {
+  let username = ctx.params.username;
+  resLogger.info(`GET /star/username=${username}`);
+  let [err, data] = await starDB.getUserStars(username);
+  if (err !== null) {
+    errLogger.error(`Fail getting star news list for user:${username}, error msg:${err}`);
+    ctx.status = 500;
+    ctx.response.body = {
+      message: 'Internal server error'
+    }
+  }
+
+  ctx.response.body = {
+    data: data
+  }
+}
+
 module.exports = {
+  'POST /star/username=:username': getUserStars,
   'POST /star/creation': addStar,
   'POST /star/deletion': removeStar
 }

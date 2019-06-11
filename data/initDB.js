@@ -37,6 +37,7 @@ fs.readFile(path.join(__dirname, 'newsData.json'), (err, data) => {
     newsData.forEach(async (element, index) => {
       if (element.length > 0 && element[0].content !== undefined) {
         let news = element[0];
+        news.group_id = news.group_id.replace('/', '-');
         news.author = `${preName[parseInt(Math.random()*50)]}${postName[parseInt(Math.random()*7)]}`;
         news.time = Date.UTC(2017, parseInt((Math.random()*12)+1), parseInt((Math.random()*28)+1));
         let [err, status] = await syncFunc(newsDB.addNews(news));

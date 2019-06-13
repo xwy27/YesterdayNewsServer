@@ -3,7 +3,7 @@ const errLogger = require('../utils/logger')('errLogger');
 const collectionDB = require('../database/collection');
 
 let addCollection = async ctx => {
-  let body = ctx.requset.body;
+  let body = ctx.request.body;
   let userID = body.userID;
   let newsID = body.newsID;
   resLogger.info(`POST /collection/creation`);
@@ -29,7 +29,7 @@ let addCollection = async ctx => {
 }
 
 let removeCollection = async ctx => {
-  let body = ctx.requset.body;
+  let body = ctx.request.body;
   let userID = body.userID;
   let newsID = body.newsID;
   resLogger.info(`POST /collection/deletion`);

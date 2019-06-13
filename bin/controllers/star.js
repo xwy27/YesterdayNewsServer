@@ -4,7 +4,7 @@ const starDB = require('../database/star');
 const commentDB = require('../database/comment');
 
 let addStar = async ctx => {
-  let body = ctx.requset.body;
+  let body = ctx.request.body;
   let commentID = body.commentID;
   let userID = body.userID;
   resLogger.info(`POST /star/creation`);
@@ -42,7 +42,7 @@ let addStar = async ctx => {
 }
 
 let removeStar = async ctx => {
-  let body = ctx.requset.body;
+  let body = ctx.request.body;
   let commentID = body.commentID;
   let userID = body.userID;
   resLogger.info(`POST /star/deletion`);

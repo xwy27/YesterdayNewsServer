@@ -3,7 +3,7 @@ const errLogger = require('../utils/logger')('errLogger');
 const historyDB = require('../database/history');
 
 let addHistory = async ctx => {
-  let body = ctx.requset.body;
+  let body = ctx.request.body;
   let userID = body.userID;
   let newsID = body.newsID;
   resLogger.info(`POST /history/creation`);
@@ -29,7 +29,7 @@ let addHistory = async ctx => {
 }
 
 let removeHistory = async ctx => {
-  let body = ctx.requset.body;
+  let body = ctx.request.body;
   let userID = body.userID;
   let newsID = body.newsID;
   resLogger.info(`POST /history/deletion`);

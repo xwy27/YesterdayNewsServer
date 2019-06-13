@@ -24,7 +24,7 @@ let addComment = async ctx => {
   let body = ctx.request.body;
   let newsID = body.newsID;
   let userID = body.userID;
-  let time = toString(body.time);
+  let time = body.time;
   let content = body.content;
   resLogger.info(`POST /comment`);
   if (newsID === undefined || userID === undefined ||

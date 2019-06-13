@@ -12,7 +12,7 @@ async function addNews(news) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT group_id
     FROM ${table.news}
-    WHERE group_id=${db.escape(news.group_id)}`
+    WHERE BINARY group_id=${db.escape(news.group_id)}`
   ));
 
   if (err) {
@@ -72,7 +72,7 @@ async function getNewsContent(newsID) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT content
     FROM ${table.news}
-    WHERE group_id=${db.escape(newsID)}`
+    WHERE BINARY group_id=${db.escape(newsID)}`
   ));
   
   if (err) {
@@ -95,7 +95,7 @@ async function updateNewsComments(newsID) {
   let [err, rows] = await syncFunc(db.execSQL(
     `UPDATE ${table.news}
     SET comments = comments + 1
-    WHERE group_id = ${db.escape(newsID)}`
+    WHERE BINARY group_id = ${db.escape(newsID)}`
   ));
 
   if (err) {

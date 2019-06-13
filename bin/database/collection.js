@@ -33,7 +33,7 @@ async function addCollection(userID, newsID) {
 async function removeCollection(userID, newsID) {
   let [err, rows] = await syncFunc(db.execSQL(
     `DELETE FROM ${table.collection}
-    WHERE userID=${db.escape(userID)} AND newsID=${db.escape(newsID)}`
+    WHERE BINARY userID=${db.escape(userID)} AND BINARY newsID=${db.escape(newsID)}`
   ));
   
   if (err) {
@@ -55,7 +55,7 @@ async function getUserCollection(username) {
     `SELECT a.group_id, a.title, a.author, a.time, a.comments, ifnull(b.stars, 0) AS stars
     FROM (SELECT n.group_id, n.title, n.author, n.time, n.comments
           FROM ${table.news} n, ${table.collection} c
-          WHERE c.userID = ${db.escape(username)} AND c.newsID = n.group_id
+          WHERE BINARY c.userID = ${db.escape(username)} AND BINARY c.newsID = n.group_id
           ORDER BY n.time) AS a LEFT JOIN
          (SELECT newsID, COUNT(*) AS stars
           FROM ${table.collection} c1

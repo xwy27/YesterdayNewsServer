@@ -12,7 +12,7 @@ async function addUser(user) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT username
     FROM ${table.user}
-    WHERE username=${db.escape(user.username)}`
+    WHERE BINARY username=${db.escape(user.username)}`
   ));
   
   if (err) {
@@ -47,7 +47,7 @@ async function addUser(user) {
 async function removeUser(username) {
   let [err, rows] = await syncFunc(db.execSQL(
     `DELETE FROM ${table.user}
-    WHERE username=${db.escape(username)}`
+    WHERE BINARY username=${db.escape(username)}`
   ));
   
   if (err) {
@@ -68,7 +68,7 @@ async function checkUser(user) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT username
     FROM ${table.user}
-    WHERE username=${db.escape(user.username)} AND password=${db.escape(user.password)}`
+    WHERE BINARY username=${db.escape(user.username)} AND BINARY password=${db.escape(user.password)}`
   ));
 
   if (err) {
@@ -94,7 +94,7 @@ async function getUserInfo(username) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT username, telephone, avatar
     FROM ${table.user}
-    WHERE username=${db.escape(username)}`
+    WHERE BINARY username=${db.escape(username)}`
   ));
 
   if (err) {
@@ -120,7 +120,7 @@ async function updateUserInfo(user) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT username
     FROM ${table.user}
-    WHERE username=${db.escape(user.username)}`
+    WHERE BINARY username=${db.escape(user.username)}`
   ));
 
   if (err) {
@@ -136,7 +136,7 @@ async function updateUserInfo(user) {
   [err, rows] = await syncFunc(db.execSQL(
     `UPDATE ${table.user}
     SET telephone=${db.escape(user.telephone)}
-    WHERE username=${db.escape(user.username)}`
+    WHERE BINARY username=${db.escape(user.username)}`
     ));
     
   if (err) {
@@ -158,7 +158,7 @@ async function updateUserAvatar(user) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT username
     FROM ${table.user}
-    WHERE username=${db.escape(user.username)}`
+    WHERE BINARY username=${db.escape(user.username)}`
   ));
 
   if (err) {
@@ -174,7 +174,7 @@ async function updateUserAvatar(user) {
   [err, rows] = await syncFunc(db.execSQL(
     `UPDATE ${table.user}
     SET avatar=${db.escape(user.avatar)}
-    WHERE username=${db.escape(user.username)}`
+    WHERE BINARY username=${db.escape(user.username)}`
     ));
     
   if (err) {
@@ -210,7 +210,7 @@ async function updateUserPassword(user) {
   [err, rows] = await syncFunc(db.execSQL(
     `UPDATE ${table.user}
     SET password=${db.escape(user.newPassword)}
-    WHERE username=${db.escape(user.username)}`
+    WHERE BINARY username=${db.escape(user.username)}`
   ));
   
   if (err) {

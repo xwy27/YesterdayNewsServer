@@ -36,7 +36,7 @@ async function addStar(userID, commentID) {
 async function removeStar(userID, commentID) {
   let [err, rows] = await syncFunc(db.execSQL(
     `DELETE FROM ${table.star}
-    WHERE userID=${db.escape(userID)} AND commentID=${db.escape(commentID)}`
+    WHERE BINARY userID=${db.escape(userID)} AND commentID=${db.escape(commentID)}`
   ));
   
   if (err) {
@@ -82,7 +82,7 @@ async function getUserStars(username) {
     `SELECT a.group_id, a.title, a.author, a.time, a.comments, ifnull(b.stars, 0) AS stars
     FROM(SELECT n.group_id, n.title, n.author, n.time, n.comments, c.commentID, c.stars
         FROM ${table.news} n, ${table.comment} c, ${table.star} s
-        WHERE s.userID = ${db.escape(username)} AND s.commentID = c.commentID AND c.newsID = n.group_id
+        WHERE BINARY s.userID = ${db.escape(username)} AND s.commentID = c.commentID AND BINARY c.newsID = n.group_id
         ORDER BY n.time) AS a LEFT JOIN
         (SELECT newsID, COUNT(*) AS stars
         FROM ${table.collection} c1

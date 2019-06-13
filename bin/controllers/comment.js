@@ -21,7 +21,7 @@ let getComment = async ctx => {
 }
 
 let addComment = async ctx => {
-  let body = ctx.requset.body;
+  let body = ctx.request.body;
   let newsID = body.newsID;
   let userID = body.userID;
   let time = toString(body.time);

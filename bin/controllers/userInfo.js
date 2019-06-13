@@ -65,9 +65,9 @@ let uploadAvatar = async ctx => {
   let avatarFile = ctx.request.files.file;
 
   resLogger.info(`POST /user/avatar`);
-  let avatarName = crypto.createHash('md5').update(username).digest('hex');
+  let avatarName = username;
   let filePath = path.join(__dirname, '../static/image/avatar/', `${avatarName}`);
-  saveFile(avatarFile, filePath + '.jpg');
+  saveFile(avatarFile, filePath + '.png');
   let [err, status] = await userDB.updateUserAvatar({
     username: username,
     avatar: avatarName

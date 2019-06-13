@@ -389,8 +389,8 @@
 
   ```json
   {
-    "newsID": "username",
-    "userID": "password",
+    "newsID": "newsID",
+    "userID": "username",
     "time": "time",
     "content": "content"
   }
@@ -740,7 +740,8 @@
 - Response 200
   ```json
   {
-    "message": "success"
+    "message": "success",
+    "token": "token"
   }
   ```
 
@@ -805,7 +806,8 @@
   ```json
   {
     "username": "username",
-    "password": "password"
+    "password": "password",
+    "telephone": "telephone"
   }
   ```
 

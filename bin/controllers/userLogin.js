@@ -32,7 +32,8 @@ let login = async ctx => {
       overwrite: false
     });
     ctx.response.body = {
-      message: 'success'
+      message: 'success',
+      token: token
     };
   } else {  // login fail
     errLog.error(`Data mismatch: user: ${username}, psd: ${password}`);

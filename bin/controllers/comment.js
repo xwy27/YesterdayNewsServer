@@ -12,12 +12,12 @@ let getComment = async ctx => {
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
-    }
+    };
   }
 
   ctx.response.body = {
     comments: comments
-  }
+  };
 }
 
 let addComment = async ctx => {
@@ -33,7 +33,7 @@ let addComment = async ctx => {
       ctx.status = 400;
       ctx.response.body = {
         message: 'Incomplete data'
-      }
+      };
   }
   let [err, commentID] = await commentDB.addComment(userID, newsID, time, content);
   if (err !== null) {
@@ -41,13 +41,13 @@ let addComment = async ctx => {
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
-    }
+    };
   }
 
   ctx.response.body = {
     data: commentID
-  }
-}
+  };
+};
 
 let getUserComments = async ctx => {
   let username = ctx.params.username;
@@ -58,16 +58,16 @@ let getUserComments = async ctx => {
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
-    }
+    };
   }
 
   ctx.response.body = {
     data: data
-  }
-}
+  };
+};
 
 module.exports = {
   'GET /comment/username=:username': getUserComments,
   'GET /comment/newsID=:newsID': getComment,
   'POST /comment': addComment
-}
+};

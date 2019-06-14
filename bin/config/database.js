@@ -15,4 +15,4 @@ module.exports = {
     database: 'YesterdayNews',
     charset : 'utf8mb4'
   }
-}
+};

@@ -10,4 +10,4 @@ module.exports = function (file, filePath) {
   const reader = fs.createReadStream(file.path);
   const upStream = fs.createWriteStream(filePath);
   reader.pipe(upStream);
-}
+};

@@ -18,18 +18,18 @@ let getUserInfo = async ctx => {
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
-    }
+    };
   } else if (info === null) { // no match data
     ctx.status = 401;
     ctx.response.body = {
       message: 'No match user.'
-    }
+    };
   } else {  // success
     ctx.response.body = {
       username: info
-    }
+    };
   }
-}
+};
 
 let updateUserInfo = async ctx => {
   let body = ctx.request.body;
@@ -47,18 +47,18 @@ let updateUserInfo = async ctx => {
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
-    }
+    };
   } else if (status !== true) { // no match data
     ctx.status = 401;
     ctx.response.body = {
       message: 'No match user.'
-    }
+    };
   } else {  // success
     ctx.response.body = {
       message: 'success'
-    }
+    };
   }
-}
+};
 
 let uploadAvatar = async ctx => {
   let username = ctx.request.body.username;
@@ -78,21 +78,21 @@ let uploadAvatar = async ctx => {
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
-    }
+    };
   } else if (status !== true) { // no match data
     ctx.status = 401;
     ctx.response.body = {
       message: 'No match user.'
-    }
+    };
   } else {  // success
     ctx.response.body = {
       avatar: avatarName
-    }
+    };
   }
-}
+};
 
 module.exports = {
   'POST /user/info': updateUserInfo,
   'GET /user/info/:username': getUserInfo,
   'POST /user/avatar': uploadAvatar
-}
+};

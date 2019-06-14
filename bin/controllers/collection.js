@@ -12,7 +12,7 @@ let addCollection = async ctx => {
       ctx.status = 400;
       ctx.response.body = {
         message: 'Incomplete data'
-      }
+      };
   }
   let [err, data] = await collectionDB.addCollection(userID, newsID);
   if (err !== null) {
@@ -20,13 +20,13 @@ let addCollection = async ctx => {
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
-    }
+    };
   }
 
   ctx.response.body = {
     collection: data
-  }
-}
+  };
+};
 
 let removeCollection = async ctx => {
   let body = ctx.request.body;
@@ -38,7 +38,7 @@ let removeCollection = async ctx => {
       ctx.status = 400;
       ctx.response.body = {
         message: 'Incomplete data'
-      }
+      };
   }
   let [err, status] = await collectionDB.removeCollection(userID, newsID);
   if (err !== null) {
@@ -46,13 +46,13 @@ let removeCollection = async ctx => {
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
-    }
+    };
   }
 
   ctx.response.body = {
     message: 'Success'
-  }
-}
+  };
+};
 
 let getUserCollection = async ctx => {
   let username = ctx.params.username;
@@ -63,13 +63,13 @@ let getUserCollection = async ctx => {
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
-    }
+    };
   }
 
   ctx.response.body = {
     data: data
-  }
-}
+  };
+};
 
 module.exports = {
   'GET /collection/username=:username': getUserCollection,

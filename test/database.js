@@ -26,8 +26,16 @@ describe('Database testing', () => {
   });
 
   after(async () => {
-    await userDB.removeUser('test');
-    await userDB.removeUser('test2');
+    let [err, data] = await userDB.removeUser('test');
+    if (err !== null) {
+      console.log(err);
+      process.exit(1);
+    }
+    [err, data] = await userDB.removeUser('test2');
+    if (err !== null) {
+      console.log(err);
+      process.exit(1);
+    }
 
     process.exit(0);
   });
@@ -149,7 +157,14 @@ describe('Database testing', () => {
     chai.expect(data.count).to.equal(2);
   });
 
-  it('Get star list for user', async () => {
+  it('Get star comment list for user', async () => {
+    let [err, data] = await commentDB.getUserStarComments('test');
+    chai.expect(err).to.be.a('null');
+    chai.expect(data.length).to.equal(1);
+    chai.expect(data[0].stars).to.equal(2);
+  });
+
+  it('Get star comment news list for user', async () => {
     let [err, data] = await starDB.getUserStars('test');
     chai.expect(err).to.be.a('null');
     chai.expect(data.length).to.equal(1);

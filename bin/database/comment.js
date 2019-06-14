@@ -55,11 +55,32 @@ async function getComments(newsID) {
 }
 
 /**
+ * Return stared comment list for user
+ * @param {string} username commented user
+ * @return {array} stared comment list for user if there exists
+ */
+async function getUserStarComments(username) {
+  let [err, rows] = await syncFunc(db.execSQL(
+    `SELECT c.commentID, c.userID, c.newsID, c.stars, c.time, c.content
+    FROM ${table.comment} c, ${table.star} s
+    WHERE BINARY s.userID=${db.escape(username)} AND s.commentID=c.commentID`
+  ));
+  
+  if (err) {
+    dbLogger.error(`Error to get star comments for user:${username}, error message:${err}`);
+    return [err, null];
+  }
+  
+  dbLogger.info(`Get star comments for user:${username}`);
+  return [null, rows];
+}
+
+/**
  * Return commented news list for user
  * @param {string} username commented user
  * @return {array} commented news list for user if there exists
  */
-async function getUserComments(username) {
+async function getUserCommentsNews(username) {
   let [err, rows] = await syncFunc(db.execSQL(
     `SELECT a.group_id, a.title, a.author, a.time, a.comments, ifnull(b.stars, 0) AS stars
     FROM(SELECT n.group_id, n.title, n.author, n.time, n.comments
@@ -73,11 +94,11 @@ async function getUserComments(username) {
   ));
   
   if (err) {
-    dbLogger.error(`Error to get comment for user:${username}, error message:${err}`);
+    dbLogger.error(`Error to get commented News for user:${username}, error message:${err}`);
     return [err, null];
   }
   
-  dbLogger.info(`Get comment for user:${username}`);
+  dbLogger.info(`Get commented News for user:${username}`);
   return [null, rows];
 }
 
@@ -117,7 +138,8 @@ async function clearComments() {
 module.exports = {
   addComment: addComment,
   getComments: getComments,
-  getUserComments: getUserComments,
+  getUserComments: getUserCommentsNews,
+  getUserStarComments: getUserStarComments,
   updateStarCount: updateStarCount,
   clearComments: clearComments
 }

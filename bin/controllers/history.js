@@ -12,7 +12,7 @@ let addHistory = async ctx => {
       ctx.status = 400;
       ctx.response.body = {
         message: 'Incomplete data'
-      }
+      };
   }
   let [err, data] = await historyDB.addHistory(userID, newsID);
   if (err !== null) {
@@ -20,12 +20,12 @@ let addHistory = async ctx => {
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
-    }
+    };
   }
 
   ctx.response.body = {
     history: data
-  }
+  };
 }
 
 let removeHistory = async ctx => {
@@ -38,7 +38,7 @@ let removeHistory = async ctx => {
       ctx.status = 400;
       ctx.response.body = {
         message: 'Incomplete data'
-      }
+      };
   }
   let [err, status] = await historyDB.removeHistory(userID, newsID);
   if (err !== null) {
@@ -46,13 +46,13 @@ let removeHistory = async ctx => {
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
-    }
+    };
   }
 
   ctx.response.body = {
     message: 'Success'
-  }
-}
+  };
+};
 
 let getUserHistory = async ctx => {
   let username = ctx.params.username;
@@ -63,16 +63,16 @@ let getUserHistory = async ctx => {
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
-    }
+    };
   }
 
   ctx.response.body = {
     data: data
-  }
-}
+  };
+};
 
 module.exports = {
   'GET /history/username=:username': getUserHistory,
   'POST /history/creation': addHistory,
   'POST /history/deletion': removeHistory
-}
+};

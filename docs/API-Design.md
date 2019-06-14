@@ -4,74 +4,77 @@
 
 - [API-Design](#api-design)
   - [News](#news)
-    - [获取新闻列表](#获取新闻列表)
+    - [获取新闻列表](#%E8%8E%B7%E5%8F%96%E6%96%B0%E9%97%BB%E5%88%97%E8%A1%A8)
       - [Response](#response)
       - [Request Sample](#request-sample)
-    - [获取新闻详情](#获取新闻详情)
+    - [获取新闻详情](#%E8%8E%B7%E5%8F%96%E6%96%B0%E9%97%BB%E8%AF%A6%E6%83%85)
       - [Response](#response-1)
       - [Request Sample](#request-sample-1)
   - [Comment](#comment)
-    - [获取新闻评论列表](#获取新闻评论列表)
+    - [获取新闻评论列表](#%E8%8E%B7%E5%8F%96%E6%96%B0%E9%97%BB%E8%AF%84%E8%AE%BA%E5%88%97%E8%A1%A8)
       - [Response](#response-2)
       - [Request Sample](#request-sample-2)
-    - [获取个人评论新闻列表](#获取个人评论新闻列表)
+    - [获取个人评论新闻列表](#%E8%8E%B7%E5%8F%96%E4%B8%AA%E4%BA%BA%E8%AF%84%E8%AE%BA%E6%96%B0%E9%97%BB%E5%88%97%E8%A1%A8)
       - [Response](#response-3)
       - [Request Sample](#request-sample-3)
-    - [提交评论](#提交评论)
+    - [提交评论](#%E6%8F%90%E4%BA%A4%E8%AF%84%E8%AE%BA)
       - [Response](#response-4)
       - [Request Sample](#request-sample-4)
   - [Star](#star)
-    - [获取个人点赞新闻列表](#获取个人点赞新闻列表)
+    - [获取个人点赞评论列表](#%E8%8E%B7%E5%8F%96%E4%B8%AA%E4%BA%BA%E7%82%B9%E8%B5%9E%E8%AF%84%E8%AE%BA%E5%88%97%E8%A1%A8)
       - [Response](#response-5)
       - [Request Sample](#request-sample-5)
-    - [提交点赞](#提交点赞)
+    - [获取个人点赞评论所属新闻列表](#%E8%8E%B7%E5%8F%96%E4%B8%AA%E4%BA%BA%E7%82%B9%E8%B5%9E%E8%AF%84%E8%AE%BA%E6%89%80%E5%B1%9E%E6%96%B0%E9%97%BB%E5%88%97%E8%A1%A8)
       - [Response](#response-6)
       - [Request Sample](#request-sample-6)
-    - [删除点赞](#删除点赞)
+    - [提交点赞](#%E6%8F%90%E4%BA%A4%E7%82%B9%E8%B5%9E)
       - [Response](#response-7)
       - [Request Sample](#request-sample-7)
-  - [User](#user)
-    - [登陆](#登陆)
+    - [删除点赞](#%E5%88%A0%E9%99%A4%E7%82%B9%E8%B5%9E)
       - [Response](#response-8)
       - [Request Sample](#request-sample-8)
-    - [注册](#注册)
+  - [User](#user)
+    - [登陆](#%E7%99%BB%E9%99%86)
       - [Response](#response-9)
       - [Request Sample](#request-sample-9)
-    - [获取用户头像](#获取用户头像)
+    - [注册](#%E6%B3%A8%E5%86%8C)
       - [Response](#response-10)
       - [Request Sample](#request-sample-10)
-    - [获取用户信息](#获取用户信息)
+    - [获取用户头像](#%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E5%A4%B4%E5%83%8F)
       - [Response](#response-11)
       - [Request Sample](#request-sample-11)
-    - [修改用户头像](#修改用户头像)
+    - [获取用户信息](#%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF)
       - [Response](#response-12)
       - [Request Sample](#request-sample-12)
-    - [修改用户信息](#修改用户信息)
+    - [修改用户头像](#%E4%BF%AE%E6%94%B9%E7%94%A8%E6%88%B7%E5%A4%B4%E5%83%8F)
       - [Response](#response-13)
       - [Request Sample](#request-sample-13)
-    - [修改用户密码](#修改用户密码)
+    - [修改用户信息](#%E4%BF%AE%E6%94%B9%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF)
       - [Response](#response-14)
       - [Request Sample](#request-sample-14)
-  - [Collection](#collection)
-    - [获取个人收藏新闻列表](#获取个人收藏新闻列表)
+    - [修改用户密码](#%E4%BF%AE%E6%94%B9%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81)
       - [Response](#response-15)
       - [Request Sample](#request-sample-15)
-    - [提交收藏](#提交收藏)
+  - [Collection](#collection)
+    - [获取个人收藏新闻列表](#%E8%8E%B7%E5%8F%96%E4%B8%AA%E4%BA%BA%E6%94%B6%E8%97%8F%E6%96%B0%E9%97%BB%E5%88%97%E8%A1%A8)
       - [Response](#response-16)
       - [Request Sample](#request-sample-16)
-    - [删除收藏](#删除收藏)
+    - [提交收藏](#%E6%8F%90%E4%BA%A4%E6%94%B6%E8%97%8F)
       - [Response](#response-17)
       - [Request Sample](#request-sample-17)
-  - [History](#history)
-    - [获取个人历史浏览新闻列表](#获取个人历史浏览新闻列表)
+    - [删除收藏](#%E5%88%A0%E9%99%A4%E6%94%B6%E8%97%8F)
       - [Response](#response-18)
       - [Request Sample](#request-sample-18)
-    - [提交历史新闻](#提交历史新闻)
+  - [History](#history)
+    - [获取个人历史浏览新闻列表](#%E8%8E%B7%E5%8F%96%E4%B8%AA%E4%BA%BA%E5%8E%86%E5%8F%B2%E6%B5%8F%E8%A7%88%E6%96%B0%E9%97%BB%E5%88%97%E8%A1%A8)
       - [Response](#response-19)
       - [Request Sample](#request-sample-19)
-    - [删除历史新闻](#删除历史新闻)
+    - [提交历史新闻](#%E6%8F%90%E4%BA%A4%E5%8E%86%E5%8F%B2%E6%96%B0%E9%97%BB)
       - [Response](#response-20)
       - [Request Sample](#request-sample-20)
+    - [删除历史新闻](#%E5%88%A0%E9%99%A4%E5%8E%86%E5%8F%B2%E6%96%B0%E9%97%BB)
+      - [Response](#response-21)
+      - [Request Sample](#request-sample-21)
 
 <!-- /TOC -->
 
@@ -227,7 +230,7 @@
 
   ```json
   {
-    "data": [
+    "comments": [
       {
         "commentID": 1,
         "newsID": "newsID",
@@ -401,7 +404,7 @@
 - Response 200
   ```json
   {
-    "comments": 123
+    "data": 123
   }
   ```
 
@@ -468,7 +471,88 @@
 
 ## Star
 
-### 获取个人点赞新闻列表
+### 获取个人点赞评论列表
+
+- **URL: /star/comments/username=:username**
+
+- **Type: GET**
+
+#### Response
+
+- Response 200
+
+  ```json
+  {
+    "data": [
+      {
+        "commentID": "commentID",
+        "userID": "userID",
+        "time": "time",
+        "stars": 123,
+        "content": "content"
+      }, {
+        "commentID": "commentID",
+        "userID": "userID",
+        "time": "time",
+        "stars": 123,
+        "content": "content"
+      }
+    ]
+  }
+  ```
+
+- Response 400
+
+  ```json
+  {
+    "message": "msg"
+  }
+  ```
+
+- Response 500
+
+  ```json
+  {
+    "message": "err msg"
+  }
+  ```
+
+#### Request Sample
+
+- Objective-c
+
+  ```objc
+  NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+  NSURLSession *session = [NSURLSession sessionWithConfiguration: config
+                                                        delegate: (id)self
+                                                   delegateQueue: nil];
+  NSURL *url = [NSURL URLWithString:@"http://serverIP/star/comments/username=username"];
+
+  NSURLSessionDataTask *dataTask =
+    [session dataTaskWithURL: url completionHandler: ^(NSData *data, NSURLResponse *response, NSError *err) {
+      if (nil == err) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData: data
+                                                             options: 0
+                                                               error: nil];
+        // code with dict data
+      }
+  }];
+  [dataTask resume];
+  ```
+
+- javascript
+
+  ```javascript
+  axios.get('http://serverIP/star/comments/username=username')
+    .then((res) => {
+      // code with res
+    });
+    .catch((err) => {
+      // code with err
+    });
+  ```
+
+### 获取个人点赞评论所属新闻列表
 
 - **URL: /star/username=:username**
 
@@ -655,7 +739,7 @@
 - Response 200
   ```json
   {
-    "message": "success"
+    "count": 11
   }
   ```
 
@@ -1350,7 +1434,7 @@
 
   ```json
   {
-    "count": 12
+    "collection": 12
   }
   ```
 
@@ -1602,7 +1686,7 @@
 
   ```json
   {
-    "count": 12
+    "history": 12
   }
   ```
 

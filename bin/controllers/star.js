@@ -13,7 +13,7 @@ let addStar = async ctx => {
       ctx.status = 400;
       ctx.response.body = {
         message: 'Incomplete data'
-      }
+      };
   }
   let [err, _] = await starDB.addStar(userID, commentID);
   if (err !== null) {
@@ -21,7 +21,7 @@ let addStar = async ctx => {
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
-    }
+    };
   }
 
   let [error, data] = await starDB.countStar(commentID);
@@ -31,13 +31,13 @@ let addStar = async ctx => {
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
-    }
+    };
   }
 
   ctx.response.body = {
     count: data.count
-  }
-}
+  };
+};
 
 let removeStar = async ctx => {
   let body = ctx.request.body;
@@ -49,7 +49,7 @@ let removeStar = async ctx => {
       ctx.status = 400;
       ctx.response.body = {
         message: 'Incomplete data'
-      }
+      };
   }
   let [err, status] = await starDB.removeStar(userID, commentID);
   if (err !== null) {
@@ -57,7 +57,7 @@ let removeStar = async ctx => {
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
-    }
+    };
   }
   
   let [error, data] = await starDB.countStar(commentID);
@@ -67,13 +67,13 @@ let removeStar = async ctx => {
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
-    }
+    };
   }
 
   ctx.response.body = {
     count: data.count
-  }
-}
+  };
+};
 
 let getUserStars = async ctx => {
   let username = ctx.params.username;
@@ -84,16 +84,34 @@ let getUserStars = async ctx => {
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
-    }
+    };
   }
 
   ctx.response.body = {
     data: data
+  };
+};
+
+let getUserStarComments = async ctx => {
+  let username = ctx.params.username;
+  resLogger.info(`GET /star/comments/username=${username}`);
+  let [err, data] = await commentDB.getUserStarComments(username);
+  if (err !== null) {
+    errLogger.error(`Fail getting star comment list for user:${username}, error msg:${err}`);
+    ctx.status = 500;
+    ctx.response.body = {
+      message: 'Internal server error'
+    };
   }
-}
+
+  ctx.response.body = {
+    data: data
+  };
+};
 
 module.exports = {
+  'GET /star/comments/username=:username': getUserStarComments,
   'GET /star/username=:username': getUserStars,
   'POST /star/creation': addStar,
   'POST /star/deletion': removeStar
-}
+};

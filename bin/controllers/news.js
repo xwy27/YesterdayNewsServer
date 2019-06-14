@@ -11,13 +11,13 @@ let getNewsContent = async ctx => {
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
-    }
+    };
   }
 
   ctx.response.body = {
     data: content
-  }
-}
+  };
+};
 
 let getNews = async ctx => {
   let offset = ctx.params.offset;
@@ -29,15 +29,15 @@ let getNews = async ctx => {
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
-    }
+    };
   }
 
   ctx.response.body = {
     data: news
-  }
-}
+  };
+};
 
 module.exports = {
   'GET /news/content/id=:newsID': getNewsContent,
   'GET /news/list/offset=:offset&count=:count': getNews
-}
+};

@@ -15,7 +15,7 @@ let updateUserPassword = async ctx => {
       ctx.status = 400;
       ctx.response.body = {
         message: 'Incorrect password'
-      }
+      };
       return;
   }
 
@@ -31,7 +31,7 @@ let updateUserPassword = async ctx => {
     ctx.status = 500;
     ctx.response.body = {
       message: 'Internal server error'
-    }
+    };
   } else if (status !== true) { // no match data
     ctx.status = 401;
     ctx.response.body = {
@@ -40,10 +40,10 @@ let updateUserPassword = async ctx => {
   } else {  // success
     ctx.response.body = {
       message: 'success'
-    }
+    };
   }
-}
+};
 
 module.exports = {
   'POST /user/password': updateUserPassword
-}
+};

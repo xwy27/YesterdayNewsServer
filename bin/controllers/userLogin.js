@@ -20,7 +20,7 @@ let login = async ctx => {
     ctx.status = 401;
     ctx.response.body = {
       message: 'Invalid username or password'
-    }
+    };
     return;
   }
   resLog.info(`POST /user/login Data: user: ${username}, psd: ${password}`);
@@ -42,8 +42,8 @@ let login = async ctx => {
       message: 'Invalid username or password'
     };
   }
-}
+};
 
 module.exports = {
   'POST /user/login': login
-}
+};

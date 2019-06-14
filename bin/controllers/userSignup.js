@@ -20,7 +20,7 @@ let signup = async ctx => {
       ctx.status = 400;
       ctx.response.body = {
         message: 'Incorrect user data'
-      }
+      };
       return;
   }
   
@@ -49,8 +49,8 @@ let signup = async ctx => {
       message: 'Invalid username'
     };
   }
-}
+};
 
 module.exports = {
   'POST /user/signup': signup
-}
+};

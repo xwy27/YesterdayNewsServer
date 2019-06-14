@@ -63,6 +63,6 @@ log4js.configure({
 
 function logger(name) {
   return log4js.getLogger(name);
-};
+}
 
 module.exports = logger;

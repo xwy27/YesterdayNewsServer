@@ -33,8 +33,6 @@ let addStar = async ctx => {
       message: 'Internal server error'
     }
   }
-  
-  await commentDB.updateStarCount(commentID, true);
 
   ctx.response.body = {
     count: data.count
@@ -71,8 +69,6 @@ let removeStar = async ctx => {
       message: 'Internal server error'
     }
   }
-  
-  await commentDB.updateStarCount(commentID, false);
 
   ctx.response.body = {
     count: data.count

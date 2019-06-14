@@ -44,8 +44,6 @@ let addComment = async ctx => {
     }
   }
 
-  await newsDB.updateNewsComments(newsID);
-
   ctx.response.body = {
     data: commentID
   }

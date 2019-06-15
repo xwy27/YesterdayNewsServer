@@ -35,7 +35,7 @@ let addComment = async ctx => {
         message: 'Incomplete data'
       };
   }
-  let [err, commentID] = await commentDB.addComment(userID, newsID, time, content);
+  let [err, data] = await commentDB.addComment(userID, newsID, time, content);
   if (err !== null) {
     errLogger.error(`Fail adding comment for news:${newsID}, user:${userID}, error msg:${err}`);
     ctx.status = 500;
@@ -45,7 +45,8 @@ let addComment = async ctx => {
   }
 
   ctx.response.body = {
-    data: commentID
+    data: data.commentID,
+    news: data.news
   };
 };
 

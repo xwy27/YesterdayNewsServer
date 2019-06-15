@@ -12,6 +12,7 @@ const dbLogger = require('../utils/logger')('dbLogger');
  * @return {Array} [err, insert comment id]
  */
 async function addComment(userID, newsID, time, content) {
+  let res = {};
   let [err, rows] = await syncFunc(db.execSQL(
     `INSERT INTO ${table.comment} (userID, newsID, time, content)
     VALUES(${db.escape(userID)}, ${db.escape(newsID)}, ${db.escape(time)}, ${db.escape(content)})`
@@ -29,7 +30,18 @@ async function addComment(userID, newsID, time, content) {
   }
 
   dbLogger.info(`Add comment: ${userID}, ${newsID}`);
-  return [null, rows.insertId];
+
+  res.commentID = rows.insertId;
+
+  [err, rows] = await syncFunc(db.execSQL(
+    `SELECT *
+    FROM ${table.news}
+    WHERE BINARY group_id=${db.escape(newsID)}`
+  ));
+
+  res.news = rows[0];
+
+  return [null, res];
 }
 
 /**

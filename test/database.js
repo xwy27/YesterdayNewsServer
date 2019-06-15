@@ -18,10 +18,12 @@ describe('Database testing', () => {
       telephone: '12345678901'
     });
 
-    [err, commentID] = await commentDB.addComment(
+    [err, data] = await commentDB.addComment(
       'test', newsID, new Date().getTime(), 'test'
     );
     
+    commentID = data.commentID;
+
     await starDB.addStar('test', commentID);
   });
 
@@ -128,7 +130,7 @@ describe('Database testing', () => {
       'test', newsID, new Date().getTime(), 'test and test'
     );
     chai.expect(err).to.be.a('null');
-    chai.expect(data).to.be.a('Number');
+    chai.expect(data.commentID).to.be.a('Number');
   });
 
   it('Get comment for news', async () => {

@@ -879,6 +879,7 @@
       // code with err
     });
   ```
+
 ### 注册
 
 - **URL: /user/signup**
@@ -955,6 +956,74 @@
   axios.get('http://serverIP/user/signup', {
     username: "test",
     password: "test"
+  })
+    .then((res) => {
+      // code with res
+    });
+    .catch((err) => {
+      // code with err
+    });
+  ```
+
+### 验证
+
+- **URL: /user/verification**
+
+- **Type: Post**
+
+- Data
+
+  ```json
+  {
+    "token": "token"
+  }
+  ```
+
+#### Response
+
+- Response 200
+
+  ```json
+  {
+    "username": "username"
+  }
+  ```
+
+- Response 403
+
+#### Request Sample
+
+- Objective-c
+
+  ```objc
+  NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+  NSURLSession *session = [NSURLSession sessionWithConfiguration: config
+                                                        delegate: nil
+                                                   delegateQueue: nil];
+    NSURL *url = [NSURL URLWithString:@"http://serverIP/user/verification"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    NSString *params = @"token=token";
+    [request setHTTPBody:[params dataUsingEncoding:NSUTF8StringEncoding]];
+
+    NSURLSessionDataTask *dataTask =
+      [session dataTaskWithRequest: request completionHandler: ^(NSData *data, NSURLResponse *res, NSError *err) {
+        if (nil == err) {
+          NSDictionary *dict = [NSJSONSerialization JSONObjectWithData: data
+                                                               options: 0
+                                                                 error: nil];
+          // code with dict data
+        }
+    }];
+
+    [dataTask resume];
+  ```
+
+- javascript
+
+  ```javascript
+  axios.get('http://serverIP/user/verification', {
+    token: "token"
   })
     .then((res) => {
       // code with res

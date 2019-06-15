@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const resLog = require('../utils/logger')('resLogger');
 const errLog = require('../utils/logger')('errLogger');
 const checkUser = require('../database/user').checkUser;
-
+const syncFunc = require('../utils/customSync');
 const appConfig = require('../config/app');
 
 async function loginMatch(username, password) {
@@ -44,6 +44,23 @@ let login = async ctx => {
   }
 };
 
+let verification = async ctx => {
+  let body = ctx.request.body;
+  let token = body.token;
+  resLog.info(`POST /user/verification Data: token: ${token}`);
+  jwt.verify(token, appConfig.secret, (err, decoded) => {
+    if (err) {
+      ctx.status = 403;
+    }
+  
+    ctx.status = 200;
+    ctx.response.body = {
+      username: decoded.user
+    };
+  });
+};
+
 module.exports = {
-  'POST /user/login': login
+  'POST /user/login': login,
+  'POST /user/verification': verification
 };

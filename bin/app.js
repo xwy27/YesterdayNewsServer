@@ -12,6 +12,7 @@ const app = new Koa();
 
 app.use(koaJWT({secret: appConfig.secret, cookie: 'jwt'})
   .unless({ path: [
+      '/user/verification',
       '/user/login',
       '/user/signup',
       /^\/news/,

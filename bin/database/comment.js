@@ -54,7 +54,7 @@ async function getComments(newsID) {
     `SELECT *
     FROM ${table.comment}
     WHERE BINARY newsID = ${db.escape(newsID)}
-    ORDER BY stars, time`
+    ORDER BY stars DECS, time`
   ));
   
   if (err) {
